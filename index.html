@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Race Forward × Axelerant — Year One</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #0a0a0a;
+      --dark:    #111111;
+      --card:    #F2EDE5;
+      --card2:   #EBE5DC;
+      --red:     #C8102E;
+      --red-dim: #8B0B1F;
+      /* Axelerant Identity System — Tangerine Dream primary */
+      --orange:  #F25A02;   /* Tangerine Dream */
+      --blue:    #082695;   /* Midnight Blue */
+      --gold:    #F8CE03;   /* Tuscan Sun */
+      --cream:   #F9F5EE;
+      --ink:     #1A1A1A;
+      --mid:     #555555;
+      --light:   #999999;
+      --white:   #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ─────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 60px;
+      background: radial-gradient(ellipse at 50% 0%, #1a0900 0%, var(--black) 65%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        0deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px
+      ),
+      repeating-linear-gradient(
+        90deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px
+      );
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 36px;
+      z-index: 1;
+    }
+
+    .logo-rf {
+      display: block;
+      height: 44px;   /* chevron: 275×200 viewBox → ~61px wide at this height */
+      width: auto;
+      opacity: 1;
+    }
+
+    .logo-divider {
+      width: 1px;
+      height: 28px;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .logo-ax {
+      display: block;
+      height: 28px;
+      width: auto;
+      opacity: 0.92;
+      /* Axelerant__logo_light.svg is already white/light — no filter needed */
+    }
+
+    .dot { color: var(--red); margin: 0 6px; }
+
+    .year-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: rgba(248,206,3,0.65);  /* Tuscan Sun — tertiary accent */
+      text-transform: uppercase;
+    }
+
+    /* ── BATON CARD ───────────────────────────────────────────────── */
+    .baton-card {
+      background: var(--card);
+      color: var(--ink);
+      width: 100%;
+      max-width: 480px;
+      border-radius: 6px;
+      padding: 44px 40px 36px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    /* Baton grip — 70% Axelerant orange : 30% RF red */
+    .baton-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(
+        90deg,
+        #F25A02 0%, #F25A02 45%,
+        #082695 45%, #082695 55%,
+        #C8102E 55%, #C8102E 100%
+      );
+      border-radius: 6px 6px 0 0;
+    }
+
+    .card-brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 4px;
+    }
+
+    .card-brand span { color: var(--ink); }
+
+    .card-accent {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--orange);    /* Axelerant Tangerine Dream */
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .card-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(90px, 22vw, 128px);
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
+
+    /* Baton chip */
+    .baton-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 6px 14px 6px 8px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+    }
+
+    .baton-pip {
+      width: 28px;
+      height: 14px;
+      background: var(--red);
+      border-radius: 7px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .baton-pip::after {
+      content: '';
+      position: absolute;
+      right: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border-radius: 50%;
+    }
+
+    /* Divider */
+    .card-divider {
+      height: 1px;
+      background: rgba(26,26,26,0.12);
+      margin-bottom: 24px;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .stat {
+      padding-right: 16px;
+    }
+
+    .stat + .stat {
+      padding-left: 16px;
+      border-left: 1px solid rgba(26,26,26,0.12);
+    }
+
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    /* Motion trail below card */
+    .motion-trail {
+      width: 100%;
+      max-width: 480px;
+      margin-top: 20px;
+      z-index: 1;
+    }
+
+    .trail-line {
+      height: 2px;
+      background: linear-gradient(90deg, var(--red) 0%, rgba(200,16,46,0.3) 60%, transparent 100%);
+      margin-bottom: 6px;
+      border-radius: 1px;
+    }
+
+    .trail-line:nth-child(2) { width: 75%; opacity: 0.5; }
+    .trail-line:nth-child(3) { width: 45%; opacity: 0.25; }
+
+    .card-tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      margin-top: 28px;
+      z-index: 1;
+    }
+
+    /* ── SECTION BASE ─────────────────────────────────────────────── */
+    section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .section-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);   /* Axelerant Tangerine Dream — 70% dominance */
+      margin-bottom: 14px;
+    }
+    /* Race Forward sections keep RF red */
+    .section-eyebrow.rf { color: var(--red); }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(36px, 6vw, 56px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      font-size: 16px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.55);
+      max-width: 600px;
+    }
+
+    .rule {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 0;
+    }
+
+    /* ── PARTNERSHIP STATS STRIP ──────────────────────────────────── */
+    .partner-lead {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.48);
+      max-width: 600px;
+      margin-top: 14px;
+    }
+
+    .partner-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 40px;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .pstat {
+      padding: 26px 22px 22px;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .pstat:last-child { border-right: none; }
+
+    .pstat::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .pstat:hover        { background: rgba(242,90,2,0.06); }
+    .pstat.pstat-active { background: rgba(242,90,2,0.1); }
+    .pstat.pstat-active::after { transform: scaleX(1); }
+
+    .pstat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 48px;
+      line-height: 1;
+      color: var(--orange);
+      letter-spacing: -0.02em;
+      margin-bottom: 7px;
+    }
+
+    .pstat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.4;
+    }
+
+    .pstat-tap {
+      position: absolute;
+      top: 18px; right: 16px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.12);
+      transition: color 0.2s, transform 0.2s;
+    }
+    .pstat:hover .pstat-tap,
+    .pstat.pstat-active .pstat-tap {
+      color: var(--orange);
+      transform: translateX(3px);
+    }
+
+    /* expandable detail panel */
+    .pstat-panel {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.42s cubic-bezier(0.4,0,0.2,1);
+    }
+    .pstat-panel.pstat-open { max-height: 100px; }
+
+    .pstat-panel-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 22px 20px;
+      background: rgba(242,90,2,0.06);
+      border-top: 1px solid rgba(242,90,2,0.14);
+      border-radius: 0 0 7px 7px;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .pstat-panel-bar {
+      flex-shrink: 0;
+      width: 3px;
+      border-radius: 2px;
+      background: var(--orange);
+      align-self: stretch;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 640px) {
+      .partner-stats { grid-template-columns: repeat(2, 1fr); }
+      .pstat-num { font-size: 38px; }
+    }
+
+    /* ── SPLIT TIMING BOARD ───────────────────────────────────────── */
+    .splits-board {
+      margin-top: 48px;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px;
+      overflow: hidden;
+      background: #0d0d0d;
+      position: relative;
+    }
+
+    .splits-board-header {
+      display: grid;
+      grid-template-columns: 60px 120px 1fr 130px 40px;
+      padding: 10px 24px;
+      background: rgba(200,16,46,0.1);
+      border-bottom: 1px solid rgba(200,16,46,0.2);
+    }
+
+    .splits-header-cell {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+    }
+
+    .splits-header-cell.right { text-align: right; }
+
+    .split-row {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .split-row:last-child { border-bottom: none; }
+
+    .split-trigger {
+      display: grid;
+      grid-template-columns: 60px 120px 1fr 130px 40px;
+      align-items: center;
+      padding: 15px 24px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .split-trigger::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--red);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .split-row:hover .split-trigger { background: rgba(255,255,255,0.02); }
+    .split-row.open .split-trigger   { background: rgba(255,255,255,0.03); }
+    .split-row.open .split-trigger::before { opacity: 1; }
+
+    .split-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      color: rgba(200,16,46,0.45);
+      transition: color 0.2s;
+      line-height: 1;
+    }
+
+    .split-row.open .split-num { color: var(--red); }
+
+    .split-month {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      transition: color 0.2s;
+    }
+
+    .split-row.open .split-month { color: rgba(255,255,255,0.85); }
+
+    .split-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.35;
+      transition: color 0.2s;
+      padding-right: 12px;
+    }
+
+    .split-row.open .split-title { color: var(--white); font-weight: 600; }
+
+    .split-status { display: flex; align-items: center; justify-content: flex-end; }
+
+    .status-chip {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .status-chip.done   { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.35); }
+    .status-chip.launch { background: rgba(200,16,46,0.18); color: #FF6B6B; border: 1px solid rgba(200,16,46,0.35); }
+    .status-chip.win    { background: rgba(212,175,55,0.12); color: #D4AF37; border: 1px solid rgba(212,175,55,0.28); }
+    .status-chip.active { background: rgba(16,185,129,0.1);  color: #34D399; border: 1px solid rgba(16,185,129,0.22); }
+
+    .split-toggle { display: flex; align-items: center; justify-content: center; }
+
+    .split-toggle svg {
+      width: 14px; height: 14px;
+      stroke: rgba(255,255,255,0.25);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), stroke 0.2s;
+    }
+
+    .split-row.open .split-toggle svg { transform: rotate(180deg); stroke: var(--red); }
+
+    /* Expandable body */
+    .split-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .split-row.open .split-body { max-height: 300px; }
+
+    .split-body-inner {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 4px 24px 24px 84px;
+    }
+
+    /* Mini baton visual in expanded content */
+    .baton-vis {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.3s 0.18s, transform 0.3s 0.18s;
+    }
+
+    .split-row.open .baton-vis { opacity: 1; transform: translateX(0); }
+
+    .baton-cap-top {
+      width: 14px; height: 7px;
+      background: var(--red);
+      border-radius: 4px 4px 0 0;
+    }
+
+    .baton-shaft {
+      width: 8px; height: 38px;
+      background: linear-gradient(to bottom, var(--red) 0%, rgba(200,16,46,0.25) 100%);
+    }
+
+    .baton-cap-bot {
+      width: 14px; height: 7px;
+      background: rgba(200,16,46,0.35);
+      border-radius: 0 0 4px 4px;
+    }
+
+    .split-body-text {
+      font-size: 14px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.55);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s 0.12s, transform 0.3s 0.12s;
+    }
+
+    .split-row.open .split-body-text { opacity: 1; transform: translateY(0); }
+    .split-body-text strong { color: var(--white); font-weight: 600; }
+
+    /* Between-row baton connector */
+    .baton-connector {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 24px;
+      height: 26px;
+      position: relative;
+    }
+
+    .baton-connector::before {
+      content: '';
+      position: absolute;
+      left: 42px; top: 0; bottom: 0;
+      width: 2px;
+      background: rgba(200,16,46,0.15);
+    }
+
+    .baton-stick {
+      width: 40px; height: 11px;
+      border-radius: 6px;
+      background: linear-gradient(90deg,
+        rgba(200,16,46,0.1) 0%,
+        rgba(200,16,46,0.4) 50%,
+        rgba(200,16,46,0.1) 100%);
+      border: 1px solid rgba(200,16,46,0.25);
+      position: relative;
+      z-index: 1;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    /* When preceding split-row is open, the baton glows */
+    .split-row.open + .baton-connector .baton-stick {
+      background: linear-gradient(90deg,
+        rgba(200,16,46,0.35) 0%,
+        var(--red) 50%,
+        rgba(200,16,46,0.35) 100%);
+      box-shadow: 0 0 14px rgba(200,16,46,0.55), 0 0 30px rgba(200,16,46,0.2);
+      animation: baton-glow 1.8s ease-in-out infinite;
+    }
+
+    @keyframes baton-glow {
+      0%, 100% { box-shadow: 0 0 10px rgba(200,16,46,0.4); }
+      50%       { box-shadow: 0 0 22px rgba(200,16,46,0.75), 0 0 44px rgba(200,16,46,0.25); }
+    }
+
+    /* ── WINS ─────────────────────────────────────────────────────── */
+    .wins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .win-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px;
+      padding: 28px 24px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .win-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(242,90,2,0.35);
+    }
+
+    .win-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 40px;
+      color: rgba(242,90,2,0.28);  /* Tangerine Dream dim */
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .win-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--white);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .win-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── HUMAN MOMENTS ────────────────────────────────────────────── */
+    .moments-list {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .moment {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .moment:first-child { border-top: 1px solid rgba(255,255,255,0.06); }
+
+    .moment-icon {
+      font-size: 20px;
+      padding-top: 2px;
+    }
+
+    .moment-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .moment-body {
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .moment-quote {
+      display: block;
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+      border-left: 2px solid var(--red);
+      padding-left: 12px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    /* ── TEAM ─────────────────────────────────────────────────────── */
+    .team-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-top: 48px;
+    }
+
+    .team-group-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .team-member {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .team-member:last-child { border-bottom: none; }
+
+    .member-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .member-role {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      margin-top: 2px;
+    }
+
+    /* ── NEXT ─────────────────────────────────────────────────────── */
+    .next-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .next-card {
+      border: 1px solid rgba(242,90,2,0.2);
+      border-radius: 6px;
+      padding: 28px 24px;
+      background: rgba(242,90,2,0.04);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .next-card:hover {
+      border-color: rgba(242,90,2,0.4);
+      background: rgba(242,90,2,0.08);
+    }
+
+    .next-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    .next-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .next-body {
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ── YEAR IN REVIEW (WRAPPED CAROUSEL) ───────────────────────── */
+
+    /* Axelerant Identity System palette for Year in Review */
+    :root {
+      --axl-orange:  #F25A02;   /* Tangerine Dream — primary */
+      --axl-blue:    #082695;   /* Midnight Blue — secondary */
+      --axl-gold:    #F8CE03;   /* Tuscan Sun — accent */
+      --axl-amber:   #F5A623;   /* warm mid-orange */
+      --axl-bronze:  #E8981A;   /* bronze transition */
+      --axl-purple:  #9B7FE8;
+      --axl-teal:    #4ECDC4;
+      --axl-sage:    #6DB87A;
+      --axl-dark1:   #0f0b08;
+      --axl-dark2:   #0d0908;
+      --rf-red:      #C8102E;
+    }
+
+    .wrapped-section {
+      padding: 80px 24px 0;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ── carousel shell ── */
+    .wrapped-carousel {
+      margin-top: 48px;
+      position: relative;
+    }
+
+    /* top progress bar */
+    .wc-progress {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+    }
+
+    .wc-seg {
+      flex: 1;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .wc-seg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--axl-orange);  /* Tangerine Dream #F25A02 */
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0s;
+    }
+
+    .wc-seg.done::after  { transform: scaleX(1); }
+    .wc-seg.active::after {
+      transform: scaleX(0);
+      animation: wc-fill 0.45s ease forwards;
+    }
+
+    @keyframes wc-fill { to { transform: scaleX(1); } }
+
+    /* ── card stage ── */
+    .wc-stage {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      min-height: 460px;
+    }
+
+    .wc-card {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 44px 52px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      border-radius: 16px;
+    }
+
+    .wc-card.wc-active   { opacity: 1; pointer-events: auto; }
+    .wc-card.wc-entering { animation: wcIn  0.5s cubic-bezier(0.22,1,0.36,1) forwards; pointer-events: auto; }
+    .wc-card.wc-exiting  { animation: wcOut 0.35s cubic-bezier(0.55,0,1,0.45) forwards; }
+
+    @keyframes wcIn  { from { opacity:0; transform:translateX(48px) scale(0.97); } to { opacity:1; transform:translateX(0) scale(1); } }
+    @keyframes wcOut { from { opacity:1; transform:translateX(0) scale(1); } to { opacity:0; transform:translateX(-48px) scale(0.97); } }
+
+    /* card themes — 70% Axelerant orange palette, 30% RF red */
+    .wc-c1 { background: linear-gradient(145deg, #100c08 0%, #1e1208 100%); }
+    .wc-c2 { background: linear-gradient(145deg, #0d0b08 0%, #1a1408 100%); }
+    .wc-c3 { background: linear-gradient(145deg, #080d09 0%, #0e1a0c 100%); }
+    .wc-c4 { background: linear-gradient(145deg, #100e08 0%, #1c1a08 100%); }
+    .wc-c5 { background: linear-gradient(145deg, #100908 0%, #1e1008 100%); }
+    .wc-c6 { background: linear-gradient(145deg, #0a0810 0%, #120e20 100%); }
+    .wc-c7 { background: linear-gradient(145deg, #060e0c 0%, #0a1c18 100%); }
+    .wc-c8 { background: linear-gradient(145deg, #10060a 0%, #200814 100%); } /* RF red card */
+    .wc-c9 { background: linear-gradient(145deg, #100c08 0%, #1c1408 100%); }
+
+    /* ── card typography ── */
+    .wc-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 16px;
+    }
+
+    .wc-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+    }
+
+    .wc-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 12px;
+      opacity: 0.7;
+    }
+
+    .wc-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.58);
+      max-width: 460px;
+      margin-top: 14px;
+    }
+
+    .wc-body strong { color: #fff; font-weight: 600; opacity: 1; }
+
+    /* ── sub-content elements ── */
+    .wc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .wc-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid currentColor;
+      opacity: 0.7;
+    }
+
+    .wc-row-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 20px;
+      max-width: 420px;
+      text-align: left;
+    }
+
+    .wc-grid-cell {
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.62);
+    }
+
+    .wc-grid-cell strong {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .wc-site-dots {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-top: 20px;
+      max-width: 380px;
+    }
+
+    .wc-site-dot {
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .wc-site-dot .wc-sname  { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.62); line-height: 1.35; }
+    .wc-site-dot .wc-sbadge { display: inline-block; margin-top: 5px; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+
+    /* ── nav controls ── */
+    .wc-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 18px;
+    }
+
+    .wc-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.55);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    .wc-btn:hover { background: rgba(242,90,2,0.15); color: var(--axl-orange); border-color: rgba(242,90,2,0.3); }
+    .wc-btn:disabled { opacity: 0.2; cursor: default; pointer-events: none; }
+
+    .wc-counter {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.28);
+    }
+
+    .wc-counter span { color: var(--axl-orange); }
+
+    /* ── FOOTER ───────────────────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .footer-lockup {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .footer-lockup span { color: var(--orange); }
+
+    .footer-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.15);
+      margin-top: 8px;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .baton-card { padding: 36px 28px 28px; }
+      .intro-grid { grid-template-columns: 1fr; gap: 32px; }
+      .team-split { grid-template-columns: 1fr; gap: 32px; }
+      .splits-board-header { display: none; }
+      .split-trigger { grid-template-columns: 44px 88px 1fr 32px; }
+      .split-status  { display: none; }
+      .split-body-inner { padding-left: 44px; }
+      .split-num { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HERO ──────────────────────────────────────────────────────── -->
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <!--
+        Race Forward logo: pentagon/chevron shape with 5-colour rainbow border.
+        Pixel-traced from raceforward.org — polygon vertices from source 300×226px:
+          top-left(23,12) → top-right(188,12) → right-apex(288,112)
+          → bottom-right(216,210) → bottom-left(33,210) → left-top(13,30)
+        Normalised to viewBox 275×200.
+        Border colours (clockwise): orange #F47B20, coral-red #E84732,
+        purple #7B4BA3, teal #1A9BAA, green #3EA44A.
+      -->
+      <svg class="logo-rf" viewBox="0 0 275 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Race Forward">
+        <!-- Black chevron body -->
+        <polygon points="10,0 175,0 275,100 203,200 20,200 0,25" fill="#0d0d0d"/>
+        <!-- 5-colour border — clockwise from top -->
+        <!-- Top: orange -->
+        <line   x1="10"  y1="0"   x2="175" y2="0"   stroke="#F47B20" stroke-width="9" stroke-linecap="butt"/>
+        <!-- Upper-right: coral-red -->
+        <line   x1="175" y1="0"   x2="275" y2="100"  stroke="#E84732" stroke-width="9" stroke-linecap="butt"/>
+        <!-- Lower-right + bottom: purple -->
+        <polyline points="275,100 203,200 112,200"    stroke="#7B4BA3" stroke-width="9" fill="none" stroke-linejoin="miter" stroke-linecap="butt"/>
+        <!-- Bottom-left: teal -->
+        <line   x1="112" y1="200" x2="20"  y2="200"  stroke="#1A9BAA" stroke-width="9" stroke-linecap="butt"/>
+        <!-- Left: green -->
+        <polyline points="20,200 0,25 10,0"           stroke="#3EA44A" stroke-width="9" fill="none" stroke-linejoin="miter" stroke-linecap="butt"/>
+        <!-- White "race forward" — lowercase, bold condensed, centred in body -->
+        <text x="107" y="91"
+          font-family="'Barlow Condensed','Arial Narrow',sans-serif"
+          font-weight="900" font-size="52" fill="white"
+          text-anchor="middle" letter-spacing="3">race</text>
+        <text x="107" y="154"
+          font-family="'Barlow Condensed','Arial Narrow',sans-serif"
+          font-weight="900" font-size="44" fill="white"
+          text-anchor="middle" letter-spacing="1">forward</text>
+      </svg>
+      <span class="logo-divider"></span>
+      <img class="logo-ax" src="https://www.axelerant.com/hubfs/Axelerant__logo_light.svg" alt="Axelerant" />
+      <span class="dot">·</span>
+      <span class="year-label">Year One · 2025–2026</span>
+    </div>
+
+    <div class="baton-card">
+      <div class="card-brand"><span>Race Forward</span> × Axelerant</div>
+      <div class="card-accent">Forward</div>
+
+      <div class="card-headline">YEAR<br>ONE</div>
+
+      <div class="baton-chip">
+        <span class="baton-pip"></span>
+        Baton Passed
+      </div>
+
+      <div class="card-divider"></div>
+
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-label">Sites</div>
+          <div class="stat-value">6 Live<br>Properties</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Status</div>
+          <div class="stat-value">In<br>Motion</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Downtime</div>
+          <div class="stat-value">Zero</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="motion-trail">
+      <div class="trail-line"></div>
+      <div class="trail-line"></div>
+      <div class="trail-line"></div>
+    </div>
+
+    <p class="card-tagline">Not a campaign. Not a case study. Just a year we ran together.</p>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- ── PARTNERSHIP ───────────────────────────────────────────────── -->
+  <section>
+    <div class="section-eyebrow">The Partnership</div>
+    <h2 class="section-title">One Year.<br>Six Sites.&nbsp;Zero Quit.</h2>
+    <p class="partner-lead">Race Forward's entire digital estate — rebuilt, migrated, and handed into continuous care by an Axelerant team that ran every sprint with them. Tap any number for context.</p>
+
+    <!-- Interactive stat strip -->
+    <div class="partner-stats" id="partnerStats">
+      <div class="pstat" data-detail="Four sites moved from aging Drupal 7 and WordPress codebases to a modern Drupal 11 platform on Acquia — complex legacy code, zero data loss, all within 12 months." tabindex="0" role="button">
+        <div class="pstat-num"><span class="pstat-count" data-target="4">4</span>+</div>
+        <div class="pstat-label">Sites on<br>Drupal 11</div>
+        <span class="pstat-tap">→</span>
+      </div>
+      <div class="pstat" data-detail="13 Axelerant contributors — engineers, PMs, delivery managers, BAs, and QA — all running the same race at different legs of the journey." tabindex="0" role="button">
+        <div class="pstat-num"><span class="pstat-count" data-target="13">13</span></div>
+        <div class="pstat-label">Team<br>Members</div>
+        <span class="pstat-tap">→</span>
+      </div>
+      <div class="pstat" data-detail="All six properties — raceforward.org, Facing Race, Racial Equity Here, Clocking-In, Colorlines, RF Action — now in continuous delivery management." tabindex="0" role="button">
+        <div class="pstat-num"><span class="pstat-count" data-target="6">6</span></div>
+        <div class="pstat-label">Sites in<br>CDM</div>
+        <span class="pstat-tap">→</span>
+      </div>
+      <div class="pstat" data-detail="Overrun CR approved and EMS Discovery proposal signed — both in the same call with Timothy Armstrong on December 18, 2025. Ulka's reaction: 'That's the highlight for today for me.'" tabindex="0" role="button">
+        <div class="pstat-num"><span class="pstat-count" data-target="2">2</span>×</div>
+        <div class="pstat-label">Deals in<br>One Call</div>
+        <span class="pstat-tap">→</span>
+      </div>
+    </div>
+
+    <!-- Expandable detail panel -->
+    <div class="pstat-panel" id="pstatPanel">
+      <div class="pstat-panel-inner">
+        <div class="pstat-panel-bar"></div>
+        <span id="pstatPanelText"></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ── MILESTONES / SPLIT TIMING BOARD ──────────────────────────── -->
+  <section>
+    <div class="section-eyebrow">The Journey</div>
+    <h2 class="section-title">Milestones</h2>
+    <p class="section-body">Eleven splits. Four launches. Hundreds of decisions. Tap any checkpoint to open the full story.</p>
+
+    <div class="splits-board">
+
+      <!-- Board header -->
+      <div class="splits-board-header">
+        <span class="splits-header-cell">Split</span>
+        <span class="splits-header-cell">Month</span>
+        <span class="splits-header-cell">Checkpoint</span>
+        <span class="splits-header-cell right">Status</span>
+        <span class="splits-header-cell"></span>
+      </div>
+
+      <!-- 01 -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">01</span>
+          <span class="split-month">Mar 2025</span>
+          <span class="split-title">SOW Finalized — Race Begins</span>
+          <span class="split-status"><span class="status-chip done">✓ Complete</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text">SOW finalised for the <strong>D7/WP → D11 Managed Migration</strong> across four Race Forward sites. Alignment on UAT timelines, invoicing milestones, and support scope locked with Timothy Armstrong. The starting gun had fired.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 02 -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">02</span>
+          <span class="split-month">Apr – Jun 2025</span>
+          <span class="split-title">Active Delivery + AI Migration Pilot</span>
+          <span class="split-status"><span class="status-chip done">✓ Complete</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text">Active delivery across 4 sites simultaneously. Team began experimenting with <strong>AI-assisted code migration</strong> (Codex, Cline + OpenRouter) — an Axelerant first. Estimated <strong>20–25% reduction</strong> in backend effort, with gains tracked and shared openly.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 03 -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">03</span>
+          <span class="split-month">Aug 2025</span>
+          <span class="split-title">First Site Handed to CDM</span>
+          <span class="split-status"><span class="status-chip done">✓ Complete</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text"><strong>Racial Equity Here</strong> handed to continuous delivery management — the first of four sites to complete the full migration to Drupal 11. The baton passed cleanly.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 04 — LAUNCH -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">04</span>
+          <span class="split-month">Aug 28, 2025</span>
+          <span class="split-title">Facing Race Goes Live 🎉</span>
+          <span class="split-status"><span class="status-chip launch">🚀 Launch</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text"><strong>facingrace.raceforward.org</strong> launches. A long-awaited milestone after a journey marked by complexity and grit. Celebrated company-wide in <strong>#celebrate</strong>. The crowd was watching — the team delivered.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 05 — LAUNCH -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">05</span>
+          <span class="split-month">Oct 1, 2025</span>
+          <span class="split-title">Clocking-In Goes Live 🎉</span>
+          <span class="split-status"><span class="status-chip launch">🚀 Launch</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text">Described internally as <strong>"the smoothest development on this account."</strong> Nearly pixel-perfect D7 replication — plus bugs fixed that had never worked before. Two other sites were in parallel delivery at the time.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 06 -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">06</span>
+          <span class="split-month">Oct 2025</span>
+          <span class="split-title">All 4 Sites in Continuous Delivery</span>
+          <span class="split-status"><span class="status-chip done">✓ Complete</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text">Colorlines and ClockingIn handed to CDM. <strong>All four primary Race Forward sites</strong> now in continuous delivery management — monitored, maintained, and ready for what comes next.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 07 — WIN -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">07</span>
+          <span class="split-month">Dec 18, 2025</span>
+          <span class="split-title">Double Win in One Call 🏆</span>
+          <span class="split-status"><span class="status-chip win">🏆 Win</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text">Overrun CR approved <em>and</em> EMS Discovery proposal signed — <strong>in the same call</strong> with Timothy Armstrong. Ulka's reaction: <em>"That's the highlight for today for me."</em> The baton picked up speed.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 08 -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">08</span>
+          <span class="split-month">Dec 2025</span>
+          <span class="split-title">Acquia Engage Nomination</span>
+          <span class="split-status"><span class="status-chip done">✓ Complete</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text">Race Forward submitted as a featured client for <strong>Acquia Engage Awards 2026</strong> and the Drupalcon Non-Profit Summit — positioning the partnership on the industry stage.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 09 -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">09</span>
+          <span class="split-month">Jan 2026</span>
+          <span class="split-title">EMS Discovery Kickoff</span>
+          <span class="split-status"><span class="status-chip active">● Active</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text">Kickoff of a discovery engagement to build a fully custom <strong>Event Management Platform</strong> for the Facing Race Conference — 4–5K attendees, November 2026. AI-driven discovery approach, a thought leadership piece in the making.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 10 -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">10</span>
+          <span class="split-month">Feb 2026</span>
+          <span class="split-title">QA Automation Deal Signed</span>
+          <span class="split-status"><span class="status-chip active">● Active</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text"><strong>QA Automation</strong> engagement signed to support quality processes across all 6 Race Forward sites — a step toward a fully resilient digital estate.</p>
+        </div></div>
+      </div>
+
+      <div class="baton-connector"><div class="baton-stick"></div></div>
+
+      <!-- 11 -->
+      <div class="split-row" onclick="toggleSplit(this)">
+        <div class="split-trigger">
+          <span class="split-num">11</span>
+          <span class="split-month">Mar 2026</span>
+          <span class="split-title">New Tech Director + Next Migration Scoped</span>
+          <span class="split-status"><span class="status-chip active">● In Motion</span></span>
+          <span class="split-toggle"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,5 7,10 12,5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="split-body"><div class="split-body-inner">
+          <div class="baton-vis"><div class="baton-cap-top"></div><div class="baton-shaft"></div><div class="baton-cap-bot"></div></div>
+          <p class="split-body-text">New Director of Technology onboarded at Race Forward. <strong>WordPress → Drupal migration 2026</strong> scoped and under discussion. The race continues — the baton is still moving.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ── YEAR IN REVIEW ────────────────────────────────────────────── -->
+  <section class="wrapped-section">
+    <div class="section-eyebrow">Year in Review</div>
+    <h2 class="section-title">Impact<br>Wrapped</h2>
+    <p class="section-body">Nine things Race Forward's digital estate gained this year. One at a time.</p>
+
+    <div class="wrapped-carousel">
+
+      <!-- progress bar -->
+      <div class="wc-progress" id="wcProgress"></div>
+
+      <!-- card stage -->
+      <div class="wc-stage" id="wcStage">
+
+        <!-- Card 1 — Sites Migrated -->
+        <div class="wc-card wc-c1" data-wc="0">
+          <div class="wc-eyebrow" style="color:var(--axl-orange)">Your Digital Estate</div>
+          <div class="wc-number" style="font-size:clamp(110px,18vw,200px);color:var(--axl-orange)"><span class="wc-count" data-target="4">0</span></div>
+          <div class="wc-label" style="color:var(--axl-orange)">Sites Reborn on Drupal 11</div>
+          <p class="wc-body">Four of your properties moved from aging Drupal 7 and WordPress codebases to a <strong>modern, secure, scalable Drupal 11 platform on Acquia</strong>. Built to last.</p>
+          <div class="wc-tags">
+            <span class="wc-tag" style="color:var(--axl-orange)">Facing Race</span>
+            <span class="wc-tag" style="color:var(--axl-orange)">Racial Equity Here</span>
+            <span class="wc-tag" style="color:var(--axl-orange)">Clocking-In</span>
+            <span class="wc-tag" style="color:var(--axl-orange)">Colorlines</span>
+          </div>
+        </div>
+
+        <!-- Card 2 — 6 in CDM -->
+        <div class="wc-card wc-c2" data-wc="1">
+          <div class="wc-eyebrow" style="color:var(--axl-amber)">Always On</div>
+          <div class="wc-number" style="font-size:clamp(110px,18vw,200px);color:var(--axl-amber)"><span class="wc-count" data-target="6">0</span></div>
+          <div class="wc-label" style="color:var(--axl-amber)">Sites Under Active Care</div>
+          <p class="wc-body">All six of your digital properties are in <strong>continuous delivery management</strong> — security patches, core updates, performance checks, and health reviews. Running, always.</p>
+          <div class="wc-site-dots">
+            <div class="wc-site-dot" style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2)">
+              <div class="wc-sname">raceforward.org</div><span class="wc-sbadge" style="background:rgba(245,166,35,0.15);color:var(--axl-amber)">Live</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2)">
+              <div class="wc-sname">facingrace.raceforward.org</div><span class="wc-sbadge" style="background:rgba(245,166,35,0.15);color:var(--axl-amber)">Live</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2)">
+              <div class="wc-sname">racialequityhere.org</div><span class="wc-sbadge" style="background:rgba(245,166,35,0.15);color:var(--axl-amber)">Live</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2)">
+              <div class="wc-sname">clockingin.raceforward.org</div><span class="wc-sbadge" style="background:rgba(245,166,35,0.15);color:var(--axl-amber)">Live</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2)">
+              <div class="wc-sname">colorlines.com</div><span class="wc-sbadge" style="background:rgba(245,166,35,0.15);color:var(--axl-amber)">Live</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2)">
+              <div class="wc-sname">rfaction.org</div><span class="wc-sbadge" style="background:rgba(245,166,35,0.15);color:var(--axl-amber)">Live</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 — Zero Downtime -->
+        <div class="wc-card wc-c3" data-wc="2">
+          <div class="wc-eyebrow" style="color:var(--axl-sage)">Launch Day</div>
+          <div class="wc-number" style="font-size:clamp(72px,11vw,120px);color:var(--axl-sage);line-height:0.9">Zero<br>Downtime</div>
+          <div class="wc-label" style="color:var(--axl-sage)">On Every Launch</div>
+          <p class="wc-body">Both launches landed cleanly — no outages, no content loss.</p>
+          <div class="wc-row-grid">
+            <div class="wc-grid-cell" style="background:rgba(109,184,122,0.08);border:1px solid rgba(109,184,122,0.2)">
+              <strong style="color:var(--axl-sage)">Aug 28 · Facing Race</strong>
+              Long-awaited D7→D11 journey. Only minor observations on go-live day.
+            </div>
+            <div class="wc-grid-cell" style="background:rgba(109,184,122,0.08);border:1px solid rgba(109,184,122,0.2)">
+              <strong style="color:var(--axl-sage)">Oct 1 · Clocking-In</strong>
+              Pixel-perfect D7 replica — plus fixed bugs that had never worked before.
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 — Traffic capacity -->
+        <div class="wc-card wc-c4" data-wc="3">
+          <div class="wc-eyebrow" style="color:var(--axl-gold)">Platform Capacity</div>
+          <div class="wc-number" style="font-size:clamp(72px,11vw,110px);color:var(--axl-gold);line-height:0.9">20×<br>More<br>Traffic</div>
+          <div class="wc-label" style="color:var(--axl-gold)">Visit Capacity</div>
+          <p class="wc-body">Platform scaled from <strong>100K to 2M+ visits per year</strong> — architected on Acquia to handle Facing Race 2026 and every campaign beyond it.</p>
+        </div>
+
+        <!-- Card 5 — Bugs fixed -->
+        <div class="wc-card wc-c5" data-wc="4">
+          <div class="wc-eyebrow" style="color:var(--axl-orange)">Legacy Debt Cleared</div>
+          <div class="wc-number" style="font-size:clamp(72px,11vw,110px);color:var(--axl-orange);line-height:0.9">Fixed<br>What<br>Never<br>Worked</div>
+          <p class="wc-body" style="margin-top:18px"><strong>Clocking-In interactivity</strong> broken for years — fixed. All six sites moved from unsupported stacks to fully patched, enterprise-grade hosting. <strong>Core Web Vitals</strong> improvements baked into every build.</p>
+        </div>
+
+        <!-- Card 6 — AI / 25% faster -->
+        <div class="wc-card wc-c6" data-wc="5">
+          <div class="wc-eyebrow" style="color:var(--axl-purple)">Delivery Efficiency</div>
+          <div class="wc-number" style="font-size:clamp(110px,18vw,200px);color:var(--axl-purple)"><span class="wc-count" data-target="25">0</span>%</div>
+          <div class="wc-label" style="color:var(--axl-purple)">Faster on Backend Tasks</div>
+          <p class="wc-body">AI-assisted migration tooling (Codex + Cline) was used on your project — an <strong>industry first for this type of D7→D11 work</strong>. More time on quality, less on repetitive code translation.</p>
+        </div>
+
+        <!-- Card 7 — QA -->
+        <div class="wc-card wc-c7" data-wc="6">
+          <div class="wc-eyebrow" style="color:var(--axl-teal)">Quality Assurance</div>
+          <div class="wc-number" style="font-size:clamp(110px,18vw,200px);color:var(--axl-teal)"><span class="wc-count" data-target="6">0</span></div>
+          <div class="wc-label" style="color:var(--axl-teal)">Sites with Automated QA</div>
+          <p class="wc-body">Every property now runs <strong>automated functional and visual regression tests</strong> — regressions caught before they reach your users.</p>
+          <div class="wc-site-dots">
+            <div class="wc-site-dot" style="background:rgba(78,205,196,0.07);border:1px solid rgba(78,205,196,0.18)">
+              <div class="wc-sname">Facing Race</div><span class="wc-sbadge" style="background:rgba(78,205,196,0.15);color:var(--axl-teal)">✓ Pass</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(78,205,196,0.07);border:1px solid rgba(78,205,196,0.18)">
+              <div class="wc-sname">Race Forward</div><span class="wc-sbadge" style="background:rgba(78,205,196,0.15);color:var(--axl-teal)">✓ Pass</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(78,205,196,0.07);border:1px solid rgba(78,205,196,0.18)">
+              <div class="wc-sname">Racial Equity Here</div><span class="wc-sbadge" style="background:rgba(78,205,196,0.15);color:var(--axl-teal)">✓ Pass</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(78,205,196,0.07);border:1px solid rgba(78,205,196,0.18)">
+              <div class="wc-sname">RF Action</div><span class="wc-sbadge" style="background:rgba(78,205,196,0.15);color:var(--axl-teal)">✓ Pass</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(78,205,196,0.07);border:1px solid rgba(78,205,196,0.18)">
+              <div class="wc-sname">Colorlines</div><span class="wc-sbadge" style="background:rgba(78,205,196,0.15);color:var(--axl-teal)">✓ Pass</span>
+            </div>
+            <div class="wc-site-dot" style="background:rgba(78,205,196,0.07);border:1px solid rgba(78,205,196,0.18)">
+              <div class="wc-sname">Clocking-In</div><span class="wc-sbadge" style="background:rgba(251,191,36,0.12);color:#FCD34D">In Progress</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 8 — Facing Race 2026 (RF red card — the 30%) -->
+        <div class="wc-card wc-c8" data-wc="7">
+          <div class="wc-eyebrow" style="color:var(--rf-red)">Conference Ready</div>
+          <div class="wc-number" style="font-size:clamp(72px,11vw,110px);color:var(--rf-red);line-height:0.9">Facing<br>Race<br><span style="color:#fff">2026</span></div>
+          <div class="wc-label" style="color:var(--rf-red)">Is Coming — And You're Ready</div>
+          <div class="wc-row-grid" style="margin-top:20px">
+            <div class="wc-grid-cell" style="background:rgba(200,16,46,0.08);border:1px solid rgba(200,16,46,0.2)">
+              <strong style="color:var(--rf-red)">4–5K Attendees</strong>
+              Raleigh, NC · November 2026
+            </div>
+            <div class="wc-grid-cell" style="background:rgba(200,16,46,0.08);border:1px solid rgba(200,16,46,0.2)">
+              <strong style="color:var(--rf-red)">Custom EMS</strong>
+              Discovery underway — your own platform to replace Hoova
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 9 — What's Next -->
+        <div class="wc-card wc-c9" data-wc="8">
+          <div class="wc-eyebrow" style="color:var(--axl-orange)">What's Next</div>
+          <div class="wc-number" style="font-size:clamp(72px,11vw,110px);color:var(--axl-orange);line-height:0.9">The<br>Race<br>Continues</div>
+          <p class="wc-body" style="margin-top:18px">Three more initiatives already in motion for <strong>2026</strong> — Custom EMS · WP→Drupal Phase 2 · AI-driven A/SEO Strategy across all sister sites.</p>
+          <div class="wc-tags" style="margin-top:20px">
+            <span class="wc-tag" style="color:var(--axl-orange)">Discovery Active</span>
+            <span class="wc-tag" style="color:var(--axl-orange)">In Scope</span>
+            <span class="wc-tag" style="color:var(--axl-orange)">Roadmapped</span>
+          </div>
+        </div>
+
+      </div><!-- /wc-stage -->
+
+      <!-- nav row -->
+      <div class="wc-controls">
+        <button class="wc-btn" id="wcPrev" onclick="wcChange(-1)" disabled>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="9,2 4,7 9,12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="wc-counter"><span id="wcCur">1</span> / <span id="wcTot">9</span></div>
+        <button class="wc-btn" id="wcNext" onclick="wcChange(1)">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="5,2 10,7 5,12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+    </div><!-- /wrapped-carousel -->
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ── WINS ──────────────────────────────────────────────────────── -->
+  <section>
+    <div class="section-eyebrow">What We Built</div>
+    <h2 class="section-title">Key Wins</h2>
+
+    <div class="wins-grid">
+      <div class="win-card">
+        <div class="win-number">01</div>
+        <div class="win-title">Migration at Scale</div>
+        <div class="win-body">4 sites migrated from Drupal 7 to Drupal 11 on Acquia. Complex legacy code, fragmented stack — navigated successfully.</div>
+      </div>
+      <div class="win-card">
+        <div class="win-number">02</div>
+        <div class="win-title">The Smoothest Delivery</div>
+        <div class="win-body">Clocking-In launched nearly pixel-perfect, with bugs fixed that had never worked on the live D7 site — while two other sites were in parallel delivery.</div>
+      </div>
+      <div class="win-card">
+        <div class="win-number">03</div>
+        <div class="win-title">Double Win in One Call</div>
+        <div class="win-body">Overrun CR and new Discovery engagement — both approved in a single conversation with Timothy Armstrong in December 2025.</div>
+      </div>
+      <div class="win-card">
+        <div class="win-number">04</div>
+        <div class="win-title">AI-Powered Migration</div>
+        <div class="win-body">Team piloted AI coding tools (Codex) on a live client project — an Axelerant first — with measured efficiency gains tracked and shared openly.</div>
+      </div>
+      <div class="win-card">
+        <div class="win-number">05</div>
+        <div class="win-title">EMS AI Discovery</div>
+        <div class="win-body">Prateek's team used an AI-driven discovery approach for the Event Management System — now a thought leadership blog in the making.</div>
+      </div>
+      <div class="win-card">
+        <div class="win-number">06</div>
+        <div class="win-title">Acquia Visibility</div>
+        <div class="win-body">Race Forward positioned as a featured reference for Acquia Engage Awards 2026 and Drupalcon's Non-Profit Summit.</div>
+      </div>
+      <div class="win-card">
+        <div class="win-number">07</div>
+        <div class="win-title">Goodwill Extension</div>
+        <div class="win-body">Zero-cost CDM extension offered proactively — a trust move that deepened the relationship rather than creating friction.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ── HUMAN MOMENTS ──────────────────────────────────────────────── -->
+  <section>
+    <div class="section-eyebrow rf">The Humanity in the Work</div>
+    <h2 class="section-title">Human Moments</h2>
+    <p class="section-body">The metrics tell one story. The moments between the deliverables tell another.</p>
+
+    <div class="moments-list">
+      <div class="moment">
+        <div class="moment-icon">🎉</div>
+        <div>
+          <div class="moment-title">The #celebrate Posts</div>
+          <div class="moment-body">Both the Facing Race and Clocking-In launches were shared in Axelerant's company-wide #celebrate channel. Ajaypal's posts were heartfelt — naming the team's resilience and their client-first attitude under real pressure.</div>
+        </div>
+      </div>
+      <div class="moment">
+        <div class="moment-icon">🤝</div>
+        <div>
+          <div class="moment-title">Sachin's Strategic Assist</div>
+          <div class="moment-body">When the overrun conversation needed the right framing, Sachin joined the call and helped navigate it with exactly the right tone.
+            <em class="moment-quote">"It was a learning experience for me." — Ulka Neil</em>
+          </div>
+        </div>
+      </div>
+      <div class="moment">
+        <div class="moment-icon">✨</div>
+        <div>
+          <div class="moment-title">Ulka's Win Note</div>
+          <div class="moment-body">After closing both the CR and the Discovery proposal in one call:
+            <em class="moment-quote">"That's the highlight for today for me. Thanks, everyone." — Ulka Neil, Dec 18, 2025</em>
+          </div>
+        </div>
+      </div>
+      <div class="moment">
+        <div class="moment-icon">🤖</div>
+        <div>
+          <div class="moment-title">The AI Experiment</div>
+          <div class="moment-body">The team chose to pilot AI coding tools on a live engagement — a brave first. Kalaiselvan tracked the data openly and shared the results with delivery managers. That's the Axelerant learning culture in action.</div>
+        </div>
+      </div>
+      <div class="moment">
+        <div class="moment-icon">⭐</div>
+        <div>
+          <div class="moment-title">Murtaza's Quiet Excellence</div>
+          <div class="moment-body">Called out specifically for "great efficiency, collaboration, and planning" on Clocking-In — handling code quality, client feedback, and parallel site work at the same time. A quiet star on the account.</div>
+        </div>
+      </div>
+      <div class="moment">
+        <div class="moment-icon">💬</div>
+        <div>
+          <div class="moment-title">Timothy's Candour</div>
+          <div class="moment-body">During the December review, Timothy acknowledged the team's "strong flexibility and patience" and reflected they'd "tier the deployment differently in retrospect." Client self-awareness like that is built on genuine trust.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ── TEAM ───────────────────────────────────────────────────────── -->
+  <section>
+    <div class="section-eyebrow">The Runners</div>
+    <h2 class="section-title">Who Carried<br>the Baton</h2>
+
+    <div class="team-split">
+      <div>
+        <div class="team-group-label">Axelerant Team</div>
+        <div class="team-member"><div class="member-name">Ulka Neil</div><div class="member-role">Client Engagement Manager — Full ownership across all phases</div></div>
+        <div class="team-member"><div class="member-name">Sachin KS</div><div class="member-role">Director of Sales & Partnerships</div></div>
+        <div class="team-member"><div class="member-name">Hetal Mistry</div><div class="member-role">Director of Delivery Services</div></div>
+        <div class="team-member"><div class="member-name">Sivagami Vasudevan</div><div class="member-role">Delivery Manager</div></div>
+        <div class="team-member"><div class="member-name">Prateek Jain</div><div class="member-role">Director, Digital Solutions & AI Strategy</div></div>
+        <div class="team-member"><div class="member-name">Ajaypal Jadeja</div><div class="member-role">Project Manager</div></div>
+        <div class="team-member"><div class="member-name">Hardik Kumar Patel</div><div class="member-role">Team Lead</div></div>
+        <div class="team-member"><div class="member-name">Kalaiselvan Swamy</div><div class="member-role">Technical Lead, CDM</div></div>
+        <div class="team-member"><div class="member-name">Suraj Vantagode</div><div class="member-role">CDM Technical Lead</div></div>
+        <div class="team-member"><div class="member-name">Annam Sreenivasan</div><div class="member-role">Business Analyst, EMS Discovery</div></div>
+        <div class="team-member"><div class="member-name">Sami Ullah</div><div class="member-role">Developer, Facing Race</div></div>
+        <div class="team-member"><div class="member-name">Syed Murtaza Mairaj Alvi</div><div class="member-role">Developer, Clocking-In</div></div>
+        <div class="team-member"><div class="member-name">Abhishek Dhariwal</div><div class="member-role">EMS Discovery</div></div>
+      </div>
+      <div>
+        <div class="team-group-label">Race Forward Team</div>
+        <div class="team-member"><div class="member-name">Timothy Armstrong</div><div class="member-role">VP of Technology — Primary point of contact</div></div>
+        <div class="team-member"><div class="member-name">Cecelia Sullivan</div><div class="member-role">Web Developer / Tech Lead</div></div>
+        <div class="team-member"><div class="member-name">Paul Howiler</div><div class="member-role">Director of Technology</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ── NEXT ───────────────────────────────────────────────────────── -->
+  <section>
+    <div class="section-eyebrow">What's Ahead</div>
+    <h2 class="section-title">The Race<br>Continues</h2>
+    <p class="section-body">The baton doesn't stop. The next leg is already in motion — bigger, more ambitious, and deeply strategic.</p>
+
+    <div class="next-grid">
+      <div class="next-card">
+        <div class="next-label">Horizon</div>
+        <div class="next-title">Custom Event Management Platform</div>
+        <div class="next-body">A fully owned EMS built for the Facing Race Conference — 4–5K attendees, November 2026. Discovery underway with an AI-first approach.</div>
+      </div>
+      <div class="next-card">
+        <div class="next-label">In Progress</div>
+        <div class="next-title">WordPress → Drupal 2026</div>
+        <div class="next-body">A fresh migration scoped for 2026 — further embedding Axelerant as Race Forward's primary digital engineering partner.</div>
+      </div>
+      <div class="next-card">
+        <div class="next-label">Active</div>
+        <div class="next-title">QA Automation Across All 6 Sites</div>
+        <div class="next-body">Quality engineering rolling out across the full Race Forward digital portfolio — a step toward a fully resilient digital estate.</div>
+      </div>
+      <div class="next-card">
+        <div class="next-label">Ongoing</div>
+        <div class="next-title">CDM & Platform Health</div>
+        <div class="next-body">All six properties in continuous delivery — monitored, maintained, and ready for whatever comes next in the fight for racial equity.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+  <div class="rule"></div>
+  <footer class="footer">
+    <div class="footer-lockup">Race Forward <span>×</span> Axelerant · Year One · 2025–2026</div>
+    <div class="footer-sub">Built with care — for the people who run the race every day.</div>
+  </footer>
+
+
+  <script>
+    /* ── WRAPPED CAROUSEL ──────────────────────────────────────────── */
+    (function() {
+      const cards = Array.from(document.querySelectorAll('.wc-card'));
+      const total = cards.length;
+      let cur = 0;
+      let busy = false;
+
+      // Build progress segments
+      const prog = document.getElementById('wcProgress');
+      cards.forEach((_, i) => {
+        const s = document.createElement('div');
+        s.className = 'wc-seg';
+        s.id = `wcs-${i}`;
+        prog.appendChild(s);
+      });
+
+      document.getElementById('wcTot').textContent = total;
+
+      // Count-up
+      function runCounters(card) {
+        card.querySelectorAll('.wc-count').forEach(el => {
+          const target = parseInt(el.dataset.target, 10);
+          const dur = Math.min(1000, 400 + target * 10);
+          const t0 = performance.now();
+          el.textContent = '0';
+          (function tick(now) {
+            const p = Math.min((now - t0) / dur, 1);
+            const ease = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.floor(ease * target);
+            if (p < 1) requestAnimationFrame(tick);
+            else el.textContent = target;
+          })(t0);
+        });
+      }
+
+      function updateProgress(idx) {
+        for (let i = 0; i < total; i++) {
+          const s = document.getElementById(`wcs-${i}`);
+          s.className = 'wc-seg';
+          if (i < idx) s.classList.add('done');
+          else if (i === idx) s.classList.add('active');
+        }
+        document.getElementById('wcCur').textContent = idx + 1;
+        document.getElementById('wcPrev').disabled = idx === 0;
+        document.getElementById('wcNext').disabled = idx === total - 1;
+      }
+
+      function goTo(idx) {
+        if (busy || idx < 0 || idx >= total) return;
+        busy = true;
+        const from = cards[cur];
+        const to   = cards[idx];
+        from.classList.remove('wc-active');
+        from.classList.add('wc-exiting');
+        setTimeout(() => from.classList.remove('wc-exiting'), 380);
+        cur = idx;
+        to.classList.remove('wc-active', 'wc-exiting', 'wc-entering');
+        void to.offsetWidth;
+        to.classList.add('wc-entering');
+        setTimeout(() => {
+          to.classList.remove('wc-entering');
+          to.classList.add('wc-active');
+          busy = false;
+          runCounters(to);
+        }, 500);
+        updateProgress(idx);
+      }
+
+      window.wcChange = function(dir) { goTo(cur + dir); };
+
+      // Init first card
+      cards[0].classList.add('wc-active');
+      updateProgress(0);
+      runCounters(cards[0]);
+    })();
+
+    /* ── PARTNERSHIP STATS ─────────────────────────────────────────── */
+    (function() {
+      const stats  = document.querySelectorAll('.pstat');
+      const panel  = document.getElementById('pstatPanel');
+      const text   = document.getElementById('pstatPanelText');
+      let active   = -1;
+      let counted  = false;
+
+      function countUp(el) {
+        const target = parseInt(el.dataset.target, 10);
+        const dur = 700;
+        const t0 = performance.now();
+        (function tick(now) {
+          const p    = Math.min((now - t0) / dur, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.floor(ease * target);
+          if (p < 1) requestAnimationFrame(tick);
+          else el.textContent = target;
+        })(t0);
+      }
+
+      // Trigger counters on scroll into view
+      const io = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !counted) {
+          counted = true;
+          document.querySelectorAll('.pstat-count').forEach(countUp);
+        }
+      }, { threshold: 0.5 });
+      const ps = document.getElementById('partnerStats');
+      if (ps) io.observe(ps);
+
+      stats.forEach((stat, i) => {
+        function toggle() {
+          if (active === i) {
+            stat.classList.remove('pstat-active');
+            panel.classList.remove('pstat-open');
+            active = -1;
+          } else {
+            stats.forEach(s => s.classList.remove('pstat-active'));
+            stat.classList.add('pstat-active');
+            text.textContent = stat.dataset.detail;
+            panel.classList.add('pstat-open');
+            active = i;
+          }
+        }
+        stat.addEventListener('click', toggle);
+        stat.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+        });
+      });
+    })();
+
+    /* ── SPLIT TIMING BOARD ────────────────────────────────────────── */
+    function toggleSplit(row) {
+      const isOpen = row.classList.contains('open');
+      row.classList.toggle('open');
+
+      // Animate baton glow on the connector after this row
+      const connector = row.nextElementSibling;
+      if (connector && connector.classList.contains('baton-connector')) {
+        const stick = connector.querySelector('.baton-stick');
+        if (stick) {
+          if (!isOpen) {
+            // Opening — pulse the stick once with a quick flash
+            stick.style.transition = 'none';
+            stick.style.transform = 'scaleX(1.15)';
+            setTimeout(() => {
+              stick.style.transition = 'transform 0.3s ease';
+              stick.style.transform = 'scaleX(1)';
+            }, 60);
+          }
+        }
+      }
+    }
+
+    // Keyboard accessibility: Enter / Space to toggle
+    document.querySelectorAll('.split-row').forEach(row => {
+      row.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleSplit(row);
+        }
+      });
+      row.setAttribute('tabindex', '0');
+      row.setAttribute('role', 'button');
+    });
+  </script>
+</body>
+</html>
