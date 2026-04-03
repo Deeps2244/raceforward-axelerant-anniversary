@@ -1359,89 +1359,71 @@
     <div class="hero-baton-wrap">
       <svg class="hero-baton-obj" id="heroBatonObj" viewBox="0 0 440 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Relay baton — Race Forward to Axelerant">
         <defs>
-          <!-- Cylindrical body: simulates rounded metal tube via top-to-bottom gradient -->
-          <linearGradient id="bdy" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#8c8c8c"/>
-            <stop offset="16%"  stop-color="#d4d4d4"/>
-            <stop offset="34%"  stop-color="#ffffff"/>
-            <stop offset="54%"  stop-color="#bcbcbc"/>
-            <stop offset="76%"  stop-color="#808080"/>
-            <stop offset="100%" stop-color="#525252"/>
+          <!-- Chrome cylinder: top=shadow edge, broad highlight peak at 32%, tapers to dark base -->
+          <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#6e6e6e"/>
+            <stop offset="12%"  stop-color="#c8c8c8"/>
+            <stop offset="30%"  stop-color="#f8f8f8"/>
+            <stop offset="48%"  stop-color="#d0d0d0"/>
+            <stop offset="72%"  stop-color="#8a8a8a"/>
+            <stop offset="100%" stop-color="#484848"/>
           </linearGradient>
-          <!-- Grip: matte rubberised dark section -->
-          <linearGradient id="grp" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#242424"/>
-            <stop offset="28%"  stop-color="#383838"/>
-            <stop offset="52%"  stop-color="#303030"/>
-            <stop offset="100%" stop-color="#181818"/>
+          <!-- Grip: micro-texture matte black rubber -->
+          <linearGradient id="grip" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#202020"/>
+            <stop offset="30%"  stop-color="#333333"/>
+            <stop offset="56%"  stop-color="#2a2a2a"/>
+            <stop offset="100%" stop-color="#141414"/>
           </linearGradient>
-          <!-- RF red left cap -->
-          <linearGradient id="cap-l" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#e83058"/>
-            <stop offset="42%"  stop-color="#C8102E"/>
-            <stop offset="100%" stop-color="#78091c"/>
+          <!-- RF red band -->
+          <linearGradient id="rf-band" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#e02040"/>
+            <stop offset="50%"  stop-color="#C8102E"/>
+            <stop offset="100%" stop-color="#800a1e"/>
           </linearGradient>
-          <!-- AX orange right cap -->
-          <linearGradient id="cap-r" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#ff7830"/>
-            <stop offset="42%"  stop-color="#F25A02"/>
-            <stop offset="100%" stop-color="#923600"/>
-          </linearGradient>
-          <!-- Metal ring sheen -->
-          <linearGradient id="rng" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="rgba(255,255,255,0.52)"/>
-            <stop offset="100%" stop-color="rgba(255,255,255,0.06)"/>
+          <!-- AX orange band -->
+          <linearGradient id="ax-band" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#ff6820"/>
+            <stop offset="50%"  stop-color="#F25A02"/>
+            <stop offset="100%" stop-color="#8c3400"/>
           </linearGradient>
         </defs>
 
-        <!-- Left cap — RF red (flat cylindrical endcap) -->
-        <rect x="0" y="10" width="44" height="44" rx="8" fill="url(#cap-l)"/>
-        <rect x="4" y="13" width="22" height="10" rx="4" fill="rgba(255,255,255,0.18)"/>
+        <!-- ── Full baton tube — one continuous chrome cylinder ── -->
+        <rect x="0" y="8" width="440" height="48" rx="6" fill="url(#chrome)"/>
 
-        <!-- Left body–cap joint rings -->
-        <rect x="40" y="12" width="4"   height="40" fill="url(#rng)"/>
-        <rect x="44" y="12" width="2"   height="40" fill="rgba(255,255,255,0.32)"/>
+        <!-- Centre grip overlay — matte rubber section -->
+        <rect x="148" y="8" width="144" height="48" fill="url(#grip)"/>
+        <!-- Grip knurl lines (fine vertical channels) -->
+        <rect x="160" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="172" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="184" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="196" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="208" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="220" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="232" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="244" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="256" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="268" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <rect x="280" y="8" width="1" height="48" fill="rgba(255,255,255,0.06)"/>
+        <!-- Grip edge chamfers -->
+        <rect x="148" y="8" width="3"   height="48" fill="rgba(255,255,255,0.10)"/>
+        <rect x="289" y="8" width="3"   height="48" fill="rgba(255,255,255,0.10)"/>
 
-        <!-- Left polished section -->
-        <rect x="46" y="12" width="116" height="40" fill="url(#bdy)"/>
+        <!-- RF red identity ring — near left end -->
+        <rect x="56" y="8" width="10" height="48" fill="url(#rf-band)"/>
+        <!-- ring highlight -->
+        <rect x="56" y="10" width="10" height="8" fill="rgba(255,255,255,0.22)" rx="1"/>
 
-        <!-- Left accent ring before grip -->
-        <rect x="122" y="12" width="3"   height="40" fill="url(#rng)"/>
-        <rect x="125" y="12" width="1.5" height="40" fill="rgba(255,255,255,0.26)"/>
+        <!-- AX orange identity ring — near right end -->
+        <rect x="374" y="8" width="10" height="48" fill="url(#ax-band)"/>
+        <!-- ring highlight -->
+        <rect x="374" y="10" width="10" height="8" fill="rgba(255,255,255,0.22)" rx="1"/>
 
-        <!-- Centre grip — matte rubber -->
-        <rect x="127" y="12" width="186" height="40" fill="url(#grp)"/>
-        <!-- Subtle grip knurl lines -->
-        <rect x="138" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="151" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="164" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="177" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="190" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="203" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="216" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="229" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="242" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="255" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="268" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="281" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <rect x="294" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
-        <!-- Grip top-edge highlight -->
-        <rect x="127" y="13" width="186" height="4" fill="rgba(255,255,255,0.04)" rx="1"/>
-
-        <!-- Right accent ring after grip -->
-        <rect x="311.5" y="12" width="1.5" height="40" fill="rgba(255,255,255,0.26)"/>
-        <rect x="313"   y="12" width="3"   height="40" fill="url(#rng)"/>
-
-        <!-- Right polished section -->
-        <rect x="316" y="12" width="78" height="40" fill="url(#bdy)"/>
-
-        <!-- Right body–cap joint rings -->
-        <rect x="394" y="12" width="2" height="40" fill="rgba(255,255,255,0.32)"/>
-        <rect x="396" y="12" width="4" height="40" fill="url(#rng)"/>
-
-        <!-- Right cap — AX orange (flat cylindrical endcap) -->
-        <rect x="396" y="10" width="44" height="44" rx="8" fill="url(#cap-r)"/>
-        <rect x="414" y="13" width="22" height="10" rx="4" fill="rgba(255,255,255,0.18)"/>
+        <!-- Full-tube top specular highlight — gives the cylinder depth -->
+        <rect x="0" y="9" width="440" height="10" rx="3" fill="rgba(255,255,255,0.18)"/>
+        <!-- Full-tube bottom shadow line -->
+        <rect x="0" y="50" width="440" height="6"  rx="3" fill="rgba(0,0,0,0.30)"/>
       </svg>
 
       <!-- Ground shadow beneath baton -->
