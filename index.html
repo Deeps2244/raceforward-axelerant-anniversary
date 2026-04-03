@@ -38,15 +38,17 @@
       overflow-x: hidden;
     }
 
-    /* ── HERO — BATON MOTION CINEMATIC ───────────────────────────── */
+    /* ── HERO — THE OBJECT ────────────────────────────────────────── */
     .hero {
       min-height: 100vh;
       position: relative;
       overflow: hidden;
       background: #060606;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 40px 24px 80px;
     }
 
     /* Subtle grid */
@@ -61,276 +63,154 @@
       z-index: 0;
     }
 
-    /* ── Track lane lines ── */
-    .hero-track {
+    /* ── HERO: THE OBJECT ─────────────────────────────────────── */
+    /* Ambient floor spotlight */
+    .hero-spotlight {
       position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 0;
-      pointer-events: none;
-      z-index: 1;
-      padding: 20vh 0;
-    }
-    .hero-lane {
-      height: 1px;
-      background: rgba(255,255,255,0.035);
-      margin: 28px 0;
-    }
-    .hero-lane-center {
-      background: repeating-linear-gradient(
-        90deg, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) 28px,
-        transparent 28px, transparent 60px
-      );
-    }
-
-    /* ── Exchange zone ── */
-    .hero-exchange {
-      position: absolute;
+      bottom: 28%;
       left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
+      width: clamp(400px, 60vw, 800px);
+      height: 260px;
+      background: radial-gradient(ellipse at 50% 100%,
+        rgba(242,90,2,0.10) 0%,
+        rgba(200,16,46,0.05) 38%,
+        transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2.8s ease;
+      z-index: 1;
+    }
+    .hero-spotlight.on { opacity: 1; }
+
+    /* Baton container */
+    .hero-baton-wrap {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
       z-index: 3;
+      margin-bottom: 52px;
+    }
+
+    /* The baton SVG — starts edge-on, unfolds to full width */
+    .hero-baton-obj {
+      width: clamp(240px, 34vw, 420px);
+      height: auto;
       opacity: 0;
-      transition: opacity 0.6s;
-      pointer-events: none;
+      transform: scaleX(0.03) scaleY(0.65);
+      transform-origin: center center;
+      transition: opacity 1.0s ease,
+                  transform 1.6s cubic-bezier(0.34, 1.08, 0.64, 1);
+      filter: drop-shadow(0 14px 52px rgba(200,16,46,0.15))
+              drop-shadow(0 4px 18px rgba(0,0,0,0.95))
+              drop-shadow(0 0 8px rgba(242,90,2,0.08));
     }
-    .hero-exchange.visible { opacity: 1; }
-    .hero-exchange-ring {
-      width: 72px; height: 72px;
-      border: 1.5px solid rgba(242,90,2,0.22);
-      border-radius: 50%;
-      animation: hz-pulse 2.2s ease-in-out infinite;
-      transition: transform 0.5s, opacity 0.5s, border-color 0.4s;
+    .hero-baton-obj.revealed {
+      opacity: 1;
+      transform: scaleX(1) scaleY(1);
     }
-    .hero-exchange.flash .hero-exchange-ring {
-      transform: scale(2.4);
+    @keyframes obj-float {
+      0%,100% { transform: translateY(0px); }
+      50%      { transform: translateY(-11px); }
+    }
+    .hero-baton-obj.floating {
+      animation: obj-float 4s ease-in-out infinite;
+      transition: none;
+    }
+
+    /* Ground shadow glow */
+    .hero-baton-glow {
+      width: clamp(160px, 22vw, 280px);
+      height: 16px;
+      background: radial-gradient(ellipse at center,
+        rgba(242,90,2,0.26) 0%,
+        rgba(200,16,46,0.08) 42%,
+        transparent 70%);
+      margin-top: 8px;
       opacity: 0;
-      border-color: rgba(242,90,2,0.9);
+      transition: opacity 1.6s ease 0.5s;
     }
-    @keyframes hz-pulse {
-      0%,100% { transform: scale(1);    border-color: rgba(242,90,2,0.22); }
-      50%      { transform: scale(1.18); border-color: rgba(242,90,2,0.48); }
-    }
-    .hero-exchange-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: rgba(242,90,2,0.3);
+    .hero-baton-glow.on { opacity: 1; }
+
+    /* Content below baton */
+    .hero-obj-content {
+      position: relative;
+      z-index: 3;
       text-align: center;
-      line-height: 1.5;
-    }
-
-    /* ── Runner orgs ── */
-    .hero-runner {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      z-index: 4;
       opacity: 0;
-      transition: opacity 0.7s;
+      transform: translateY(20px);
+      transition: opacity 1.1s ease, transform 1.1s cubic-bezier(0.25,1,0.5,1);
     }
-    .hero-runner.visible { opacity: 1; }
-    .hero-runner-left  { left: 5vw;  flex-direction: row; }
-    .hero-runner-right { right: 5vw; flex-direction: row-reverse; }
-
-    .hero-rf-svg { height: 56px; width: auto; }
-    .hero-ax-img { height: 30px; width: auto; opacity: 0.85; }
-
-    .hero-runner-info { text-align: left; }
-    .hero-runner-right .hero-runner-info { text-align: right; }
-    .hero-runner-name {
+    .hero-obj-content.visible { opacity: 1; transform: translateY(0); }
+    .hero-obj-eyebrow {
       font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800;
-      font-size: 18px;
-      letter-spacing: 0.06em;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.9);
+      color: rgba(255,255,255,0.20);
+      margin-bottom: 14px;
+    }
+    .hero-obj-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(72px, 16vw, 170px);
+      line-height: 0.83;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .hero-obj-headline .hl-one { display: block; color: #F25A02; }
+    .hero-obj-divider {
+      width: 32px;
+      height: 1px;
+      background: rgba(255,255,255,0.16);
+      margin: 20px auto 18px;
+    }
+    .hero-obj-stats {
+      display: flex;
+      gap: clamp(20px, 5vw, 54px);
+      justify-content: center;
+    }
+    .hero-ostat { text-align: center; }
+    .hero-ostat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(18px, 2.2vw, 26px);
+      color: #fff;
+      letter-spacing: -0.02em;
       line-height: 1;
       margin-bottom: 4px;
     }
-    .hero-runner-role {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.22);
-      transition: color 0.5s;
-    }
-    .hero-runner.bright .hero-runner-role { color: var(--orange); }
-    .hero-runner-left.bright  .hero-runner-role { color: var(--red); }
-
-    /* ── Baton ── */
-    .hero-baton-stage {
-      position: absolute;
-      top: 50%;
-      left: -220px;
-      transform: translateY(-50%);
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      pointer-events: none;
-      opacity: 0;
-    }
-    .hero-baton-svg {
-      width: 200px;
-      height: 36px;
-      filter: drop-shadow(0 0 16px rgba(242,90,2,0.75))
-              drop-shadow(0 0 4px rgba(248,180,30,0.6))
-              drop-shadow(0 3px 10px rgba(0,0,0,0.6));
-    }
-    .hero-baton-trail {
-      position: absolute;
-      right: 195px;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 4px;
-      width: 0;
-      background: linear-gradient(to left, rgba(242,90,2,0.55), rgba(248,180,30,0.1), transparent);
-      border-radius: 2px;
-      pointer-events: none;
-    }
-    /* Ghost trail copies */
-    .hero-baton-ghost {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 200px;
-      height: 36px;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* ── Flash overlay ── */
-    .hero-flash {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, rgba(242,90,2,0.22) 0%, transparent 70%);
-      pointer-events: none;
-      opacity: 0;
-      z-index: 20;
-      transition: opacity 0.12s;
-    }
-    .hero-flash.on { opacity: 1; }
-
-    /* ── Center YEAR ONE reveal ── */
-    .hero-reveal {
-      position: relative;
-      z-index: 5;
-      text-align: center;
-      opacity: 0;
-      transform: scale(0.88) translateY(20px);
-      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
-                  transform 0.8s cubic-bezier(0.34,1.56,0.64,1);
-    }
-    .hero-reveal.visible {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-    .hero-reveal-eyebrow {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      margin-bottom: 12px;
-    }
-    .hero-reveal-headline {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 900;
-      font-size: clamp(110px, 26vw, 220px);
-      line-height: 0.82;
-      letter-spacing: -0.04em;
-      text-transform: uppercase;
-      margin-bottom: 0;
-      color: #fff;
-    }
-    .hero-reveal-headline .hl-one {
-      display: block;
-      color: #F25A02;
-    }
-    .hero-reveal-divider {
-      width: 80px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--red), var(--orange));
-      margin: 24px auto 22px;
-      border-radius: 1px;
-    }
-    .hero-reveal-stats {
-      display: flex;
-      gap: clamp(24px, 5vw, 60px);
-      justify-content: center;
-      margin-bottom: 28px;
-    }
-    .hero-rstat-num {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 900;
-      font-size: clamp(28px, 4vw, 44px);
-      line-height: 1;
-      color: var(--white);
-      margin-bottom: 5px;
-    }
-    .hero-rstat-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-    }
-    .hero-reveal-tagline {
+    .hero-ostat-label {
       font-family: 'Barlow', sans-serif;
-      font-size: 13px;
-      color: rgba(255,255,255,0.28);
-      letter-spacing: 0.04em;
-      max-width: 320px;
-      margin: 0 auto;
-      line-height: 1.7;
+      font-size: 10px;
+      color: rgba(255,255,255,0.26);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
 
-    /* ── Scroll cue ── */
-    .hero-scroll-cue {
+    /* Scroll cue */
+    .hero-obj-scroll {
       position: absolute;
       bottom: 28px;
       left: 50%;
       transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      width: 1px;
+      height: 42px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.22), transparent);
       opacity: 0;
       z-index: 6;
-      transition: opacity 0.6s;
-    }
-    .hero-scroll-cue.visible { opacity: 1; }
-    .hero-scroll-cue-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.25));
-      animation: scroll-bob 1.8s ease-in-out infinite;
-    }
-    .hero-scroll-cue-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.2);
+      transition: opacity 0.8s ease;
     }
     @keyframes scroll-bob {
-      0%,100% { opacity: 0.3; transform: scaleY(1); }
-      50%      { opacity: 1;   transform: scaleY(1.15); }
+      0%,100% { opacity: 0.25; }
+      50%      { opacity: 0.7; }
+    }
+    .hero-obj-scroll.visible {
+      opacity: 1;
+      animation: scroll-bob 2.2s ease-in-out infinite;
     }
 
     /* ── MILESTONES OVERFLOW TOGGLE ──────────────────────────────── */
@@ -1472,106 +1352,125 @@
   <!-- ── HERO — BATON MOTION ──────────────────────────────────────── -->
   <div class="hero" id="heroSection">
 
-    <!-- Track lane lines -->
-    <div class="hero-track" aria-hidden="true">
-      <div class="hero-lane"></div>
-      <div class="hero-lane"></div>
-      <div class="hero-lane hero-lane-center"></div>
-      <div class="hero-lane"></div>
-      <div class="hero-lane"></div>
-    </div>
+    <!-- Ambient floor spotlight -->
+    <div class="hero-spotlight" id="heroSpotlight" aria-hidden="true"></div>
 
-    <!-- Exchange zone marker -->
-    <div class="hero-exchange" id="heroExchange" aria-hidden="true">
-      <div class="hero-exchange-ring"></div>
-      <div class="hero-exchange-label">Baton<br>Exchange<br>Zone</div>
-    </div>
-
-    <!-- Left runner — Race Forward -->
-    <div class="hero-runner hero-runner-left" id="heroRunnerRF">
-      <svg class="hero-rf-svg" viewBox="0 0 275 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Race Forward">
-        <polygon points="10,0 175,0 275,100 203,200 20,200 0,25" fill="#0d0d0d"/>
-        <line x1="10" y1="0" x2="175" y2="0" stroke="#F47B20" stroke-width="9" stroke-linecap="butt"/>
-        <line x1="175" y1="0" x2="275" y2="100" stroke="#E84732" stroke-width="9" stroke-linecap="butt"/>
-        <polyline points="275,100 203,200 112,200" stroke="#7B4BA3" stroke-width="9" fill="none" stroke-linecap="butt"/>
-        <line x1="112" y1="200" x2="20" y2="200" stroke="#1A9BAA" stroke-width="9" stroke-linecap="butt"/>
-        <polyline points="20,200 0,25 10,0" stroke="#3EA44A" stroke-width="9" fill="none" stroke-linecap="butt"/>
-        <text x="107" y="91" font-family="'Barlow Condensed','Arial Narrow',sans-serif" font-weight="900" font-size="52" fill="white" text-anchor="middle" letter-spacing="3">race</text>
-        <text x="107" y="154" font-family="'Barlow Condensed','Arial Narrow',sans-serif" font-weight="900" font-size="44" fill="white" text-anchor="middle" letter-spacing="1">forward</text>
-      </svg>
-      <div class="hero-runner-info">
-        <div class="hero-runner-name">Race Forward</div>
-        <div class="hero-runner-role" id="rfRole">Outgoing Runner</div>
-      </div>
-    </div>
-
-    <!-- Right runner — Axelerant -->
-    <div class="hero-runner hero-runner-right" id="heroRunnerAX">
-      <img class="hero-ax-img" src="https://www.axelerant.com/hubfs/Axelerant__logo_light.svg" alt="Axelerant" />
-      <div class="hero-runner-info">
-        <div class="hero-runner-name">Axelerant</div>
-        <div class="hero-runner-role" id="axRole">Incoming Runner</div>
-      </div>
-    </div>
-
-    <!-- The Baton -->
-    <div class="hero-baton-stage" id="heroBatonStage" aria-hidden="true">
-      <div class="hero-baton-trail" id="heroBatonTrail"></div>
-      <svg class="hero-baton-svg" viewBox="0 0 200 36" xmlns="http://www.w3.org/2000/svg">
+    <!-- The Object: baton, centre stage, isolated -->
+    <div class="hero-baton-wrap">
+      <svg class="hero-baton-obj" id="heroBatonObj" viewBox="0 0 440 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Relay baton — Race Forward to Axelerant">
         <defs>
-          <linearGradient id="baton-body" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%"   stop-color="#F8B040"/>
-            <stop offset="45%"  stop-color="#F25A02"/>
-            <stop offset="100%" stop-color="#C04000"/>
+          <!-- Cylindrical body: simulates rounded metal tube via top-to-bottom gradient -->
+          <linearGradient id="bdy" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#8c8c8c"/>
+            <stop offset="16%"  stop-color="#d4d4d4"/>
+            <stop offset="34%"  stop-color="#ffffff"/>
+            <stop offset="54%"  stop-color="#bcbcbc"/>
+            <stop offset="76%"  stop-color="#808080"/>
+            <stop offset="100%" stop-color="#525252"/>
           </linearGradient>
-          <radialGradient id="baton-cap-g" cx="35%" cy="30%" r="65%">
-            <stop offset="0%"   stop-color="#F8C060"/>
-            <stop offset="100%" stop-color="#C84800"/>
-          </radialGradient>
+          <!-- Grip: matte rubberised dark section -->
+          <linearGradient id="grp" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#242424"/>
+            <stop offset="28%"  stop-color="#383838"/>
+            <stop offset="52%"  stop-color="#303030"/>
+            <stop offset="100%" stop-color="#181818"/>
+          </linearGradient>
+          <!-- RF red left cap -->
+          <linearGradient id="cap-l" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#e83058"/>
+            <stop offset="42%"  stop-color="#C8102E"/>
+            <stop offset="100%" stop-color="#78091c"/>
+          </linearGradient>
+          <!-- AX orange right cap -->
+          <linearGradient id="cap-r" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#ff7830"/>
+            <stop offset="42%"  stop-color="#F25A02"/>
+            <stop offset="100%" stop-color="#923600"/>
+          </linearGradient>
+          <!-- Metal ring sheen -->
+          <linearGradient id="rng" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="rgba(255,255,255,0.52)"/>
+            <stop offset="100%" stop-color="rgba(255,255,255,0.06)"/>
+          </linearGradient>
         </defs>
-        <!-- Body -->
-        <rect x="18" y="8" width="164" height="20" rx="10" fill="url(#baton-body)"/>
-        <!-- Highlight stripe -->
-        <rect x="22" y="10" width="152" height="7" rx="3.5" fill="rgba(255,255,255,0.28)"/>
-        <!-- Left cap -->
-        <circle cx="18" cy="18" r="10" fill="url(#baton-cap-g)"/>
-        <circle cx="15" cy="14"  r="4"  fill="rgba(255,255,255,0.18)"/>
-        <!-- Right cap -->
-        <circle cx="182" cy="18" r="10" fill="url(#baton-cap-g)"/>
-        <circle cx="179" cy="14"  r="4"  fill="rgba(255,255,255,0.12)"/>
+
+        <!-- Left cap — RF red -->
+        <rect x="0" y="10" width="44" height="44" rx="22" fill="url(#cap-l)"/>
+        <ellipse cx="19" cy="21" rx="10" ry="6" fill="rgba(255,255,255,0.20)" transform="rotate(-14,19,21)"/>
+
+        <!-- Left body–cap joint rings -->
+        <rect x="40" y="12" width="4"   height="40" fill="url(#rng)"/>
+        <rect x="44" y="12" width="2"   height="40" fill="rgba(255,255,255,0.32)"/>
+
+        <!-- Left polished section -->
+        <rect x="46" y="12" width="116" height="40" fill="url(#bdy)"/>
+
+        <!-- Left accent ring before grip -->
+        <rect x="122" y="12" width="3"   height="40" fill="url(#rng)"/>
+        <rect x="125" y="12" width="1.5" height="40" fill="rgba(255,255,255,0.26)"/>
+
+        <!-- Centre grip — matte rubber -->
+        <rect x="127" y="12" width="186" height="40" fill="url(#grp)"/>
+        <!-- Subtle grip knurl lines -->
+        <rect x="138" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="151" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="164" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="177" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="190" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="203" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="216" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="229" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="242" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="255" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="268" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="281" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <rect x="294" y="12" width="1" height="40" fill="rgba(255,255,255,0.065)"/>
+        <!-- Grip top-edge highlight -->
+        <rect x="127" y="13" width="186" height="4" fill="rgba(255,255,255,0.04)" rx="1"/>
+
+        <!-- Right accent ring after grip -->
+        <rect x="311.5" y="12" width="1.5" height="40" fill="rgba(255,255,255,0.26)"/>
+        <rect x="313"   y="12" width="3"   height="40" fill="url(#rng)"/>
+
+        <!-- Right polished section -->
+        <rect x="316" y="12" width="78" height="40" fill="url(#bdy)"/>
+
+        <!-- Right body–cap joint rings -->
+        <rect x="394" y="12" width="2" height="40" fill="rgba(255,255,255,0.32)"/>
+        <rect x="396" y="12" width="4" height="40" fill="url(#rng)"/>
+
+        <!-- Right cap — AX orange -->
+        <rect x="396" y="10" width="44" height="44" rx="22" fill="url(#cap-r)"/>
+        <ellipse cx="415" cy="21" rx="10" ry="6" fill="rgba(255,255,255,0.20)" transform="rotate(-14,415,21)"/>
       </svg>
+
+      <!-- Ground shadow beneath baton -->
+      <div class="hero-baton-glow" id="heroBatonGlow"></div>
     </div>
 
-    <!-- Flash overlay -->
-    <div class="hero-flash" id="heroFlash" aria-hidden="true"></div>
-
-    <!-- Center YEAR ONE reveal -->
-    <div class="hero-reveal" id="heroReveal">
-      <div class="hero-reveal-eyebrow">Race Forward × Axelerant</div>
-      <div class="hero-reveal-headline">YEAR<span class="hl-one">ONE</span></div>
-      <div class="hero-reveal-divider"></div>
-      <div class="hero-reveal-stats">
-        <div class="hero-rstat">
-          <div class="hero-rstat-num" data-target="6">0</div>
-          <div class="hero-rstat-label">Sites Live</div>
+    <!-- YEAR ONE + stats — appears after baton settles -->
+    <div class="hero-obj-content" id="heroObjContent">
+      <div class="hero-obj-eyebrow">Race Forward × Axelerant</div>
+      <div class="hero-obj-headline">YEAR<span class="hl-one">ONE</span></div>
+      <div class="hero-obj-divider"></div>
+      <div class="hero-obj-stats">
+        <div class="hero-ostat">
+          <div class="hero-ostat-num" data-target="6">0</div>
+          <div class="hero-ostat-label">Sites Live</div>
         </div>
-        <div class="hero-rstat">
-          <div class="hero-rstat-num">Zero</div>
-          <div class="hero-rstat-label">Downtime</div>
+        <div class="hero-ostat">
+          <div class="hero-ostat-num">Zero</div>
+          <div class="hero-ostat-label">Downtime</div>
         </div>
-        <div class="hero-rstat">
-          <div class="hero-rstat-num" data-target="13">0</div>
-          <div class="hero-rstat-label">Team Members</div>
+        <div class="hero-ostat">
+          <div class="hero-ostat-num" data-target="13">0</div>
+          <div class="hero-ostat-label">Team Members</div>
         </div>
       </div>
-      <div class="hero-reveal-tagline">Not a campaign. Not a case study. Just a year we ran together.</div>
     </div>
 
     <!-- Scroll cue -->
-    <div class="hero-scroll-cue" id="heroScrollCue" aria-hidden="true">
-      <div class="hero-scroll-cue-label">Scroll</div>
-      <div class="hero-scroll-cue-line"></div>
-    </div>
+    <div class="hero-obj-scroll" id="heroObjScroll" aria-hidden="true"></div>
 
   </div>
 
@@ -2148,110 +2047,57 @@
       }
     })();
 
-    /* ── HERO — BATON MOTION CINEMATIC ────────────────────────────── */
+    /* ── HERO — THE OBJECT ─────────────────────────────────────── */
     (function() {
-      const baton    = document.getElementById('heroBatonStage');
-      const trail    = document.getElementById('heroBatonTrail');
-      const flash    = document.getElementById('heroFlash');
-      const reveal   = document.getElementById('heroReveal');
-      const exchange = document.getElementById('heroExchange');
-      const rfRunner = document.getElementById('heroRunnerRF');
-      const axRunner = document.getElementById('heroRunnerAX');
-      const scrollCue = document.getElementById('heroScrollCue');
+      var batonEl   = document.getElementById('heroBatonObj');
+      var glowEl    = document.getElementById('heroBatonGlow');
+      var spotlight = document.getElementById('heroSpotlight');
+      var content   = document.getElementById('heroObjContent');
+      var scrollCue = document.getElementById('heroObjScroll');
 
-      if (!baton) return;
+      if (!batonEl) return;
 
-      // Count-up utility
       function countUp(el, target, duration) {
-        const t0 = performance.now();
+        var t0 = performance.now();
         (function tick(now) {
-          const p    = Math.min((now - t0) / duration, 1);
-          const ease = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(ease * target);
+          var p = Math.min((now - t0) / duration, 1);
+          var e = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(e * target);
           if (p < 1) requestAnimationFrame(tick);
           else el.textContent = target;
         })(t0);
       }
 
-      function runSequence() {
-        const vw = window.innerWidth;
-        const isMobile = vw < 600;
+      setTimeout(function() {
+        // Phase 1 (0.3s): ambient spotlight warms up from below
+        setTimeout(function() {
+          spotlight.classList.add('on');
+        }, 300);
 
-        // Positions: RF logo at ~10vw, AX logo at ~90vw
-        // Baton travels from just right of RF logo to just left of AX logo
-        const batonW   = 200;
-        const startX   = Math.round(vw * (isMobile ? 0.08 : 0.12));
-        const midX     = Math.round(vw / 2 - batonW / 2);
-        const endX     = Math.round(vw * (isMobile ? 0.82 : 0.86) - batonW);
-
-        // ── Phase 1 (0.35s): Runners + exchange zone fade in ──────
-        setTimeout(() => {
-          rfRunner.classList.add('visible');
-          axRunner.classList.add('visible');
-          exchange.classList.add('visible');
-        }, 350);
-
-        // ── Phase 2 (0.85s): Baton appears near RF and launches ───
-        setTimeout(() => {
-          baton.style.transition = 'none';
-          baton.style.left       = startX + 'px';
-          baton.style.opacity    = '1';
+        // Phase 2 (0.85s): baton unfolds from edge-on to full width
+        setTimeout(function() {
+          batonEl.classList.add('revealed');
+          glowEl.classList.add('on');
         }, 850);
 
-        // ── Phase 2b (0.95s): Accelerate to exchange zone ─────────
-        setTimeout(() => {
-          const dur = isMobile ? 700 : 900;
-          baton.style.transition = `left ${dur}ms cubic-bezier(0.4, 0, 0.15, 1)`;
-          baton.style.left       = midX + 'px';
-          // Grow trail behind baton
-          trail.style.transition = `width ${dur}ms linear`;
-          trail.style.width      = (midX - startX + batonW * 0.5) + 'px';
-        }, 950);
+        // Phase 3 (2.5s): baton begins to float
+        setTimeout(function() {
+          batonEl.classList.add('floating');
+        }, 2500);
 
-        // ── Phase 3 (1.9s): Exchange flash ────────────────────────
-        setTimeout(() => {
-          flash.classList.add('on');
-          exchange.classList.add('flash');
-          rfRunner.classList.add('bright');
-          setTimeout(() => flash.classList.remove('on'), 180);
-          setTimeout(() => exchange.classList.remove('flash'), 500);
-        }, isMobile ? 1650 : 1900);
-
-        // ── Phase 3b (2.0s): Baton continues to AX side ───────────
-        setTimeout(() => {
-          const dur2 = isMobile ? 550 : 680;
-          baton.style.transition = `left ${dur2}ms cubic-bezier(0.25, 1, 0.5, 1)`;
-          baton.style.left       = endX + 'px';
-          trail.style.transition = `width ${dur2}ms linear, opacity 0.5s 0.3s`;
-          trail.style.width      = (endX - startX + batonW * 0.8) + 'px';
-          axRunner.classList.add('bright');
-        }, isMobile ? 1750 : 2050);
-
-        // ── Phase 4 (2.85s): Baton fades, YEAR ONE explodes in ────
-        setTimeout(() => {
-          baton.style.transition  = 'opacity 0.5s, left 0.5s';
-          baton.style.opacity     = '0';
-          trail.style.opacity     = '0';
-          reveal.classList.add('visible');
-
-          // Count up stat numbers
-          document.querySelectorAll('.hero-rstat-num[data-target]').forEach(el => {
-            countUp(el, parseInt(el.dataset.target), 900);
+        // Phase 4 (2.2s): YEAR ONE fades in from below
+        setTimeout(function() {
+          content.classList.add('visible');
+          document.querySelectorAll('.hero-ostat-num[data-target]').forEach(function(el) {
+            countUp(el, parseInt(el.dataset.target), 1100);
           });
+        }, 2200);
 
-          // Second flash on YEAR ONE reveal
-          flash.classList.add('on');
-          setTimeout(() => flash.classList.remove('on'), 120);
-        }, isMobile ? 2450 : 2900);
-
-        // ── Phase 5 (3.6s): Scroll cue appears ───────────────────
-        setTimeout(() => {
+        // Phase 5 (3.5s): scroll cue
+        setTimeout(function() {
           scrollCue.classList.add('visible');
-        }, isMobile ? 3200 : 3800);
-      }
-
-      // Start sequence after a brief paint settle
-      setTimeout(runSequence, 100);
+        }, 3500);
+      }, 150);
     })();
 
     /* ── PARTNER STATS INTERACTIVITY ───────────────────────────────── */
