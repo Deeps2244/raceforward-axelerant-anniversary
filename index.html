@@ -83,14 +83,49 @@
     }
     .hero-spotlight.on { opacity: 1; }
 
+    /* Row: logos + baton + logos */
+    .hero-baton-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(20px, 4vw, 52px);
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 3;
+    }
+
+    /* Logo items flanking baton */
+    .hero-logo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 1s ease 0.2s;
+      flex-shrink: 0;
+    }
+    .hero-logo-item.visible { opacity: 1; }
+    .hero-logo-rf .hero-rf-svg { height: 54px; width: auto; }
+    .hero-logo-ax .hero-ax-img { height: 26px; width: auto; opacity: 0.85; }
+    .hero-logo-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.20);
+    }
+
     /* Baton container */
     .hero-baton-wrap {
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      z-index: 3;
-      margin-bottom: 36px;
+      flex: 1;
+      min-width: 0;
     }
 
     /* The baton SVG — starts edge-on, unfolds to full width */
@@ -189,6 +224,15 @@
       color: rgba(255,255,255,0.26);
       letter-spacing: 0.14em;
       text-transform: uppercase;
+    }
+    .hero-obj-tagline {
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.24);
+      letter-spacing: 0.03em;
+      max-width: 300px;
+      margin: 18px auto 0;
+      line-height: 1.7;
     }
 
     /* Scroll cue */
@@ -1355,8 +1399,26 @@
     <!-- Ambient floor spotlight -->
     <div class="hero-spotlight" id="heroSpotlight" aria-hidden="true"></div>
 
-    <!-- The Object: baton, centre stage, isolated -->
-    <div class="hero-baton-wrap">
+    <!-- Baton row: RF logo | baton | AX logo -->
+    <div class="hero-baton-row">
+
+      <!-- Race Forward logo -->
+      <div class="hero-logo-item hero-logo-rf" id="heroLogoRF">
+        <svg class="hero-rf-svg" viewBox="0 0 275 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Race Forward">
+          <polygon points="10,0 175,0 275,100 203,200 20,200 0,25" fill="#0d0d0d"/>
+          <line x1="10" y1="0" x2="175" y2="0" stroke="#F47B20" stroke-width="9" stroke-linecap="butt"/>
+          <line x1="175" y1="0" x2="275" y2="100" stroke="#E84732" stroke-width="9" stroke-linecap="butt"/>
+          <polyline points="275,100 203,200 112,200" stroke="#7B4BA3" stroke-width="9" fill="none" stroke-linecap="butt"/>
+          <line x1="112" y1="200" x2="20" y2="200" stroke="#1A9BAA" stroke-width="9" stroke-linecap="butt"/>
+          <polyline points="20,200 0,25 10,0" stroke="#3EA44A" stroke-width="9" fill="none" stroke-linecap="butt"/>
+          <text x="107" y="91" font-family="'Barlow Condensed','Arial Narrow',sans-serif" font-weight="900" font-size="52" fill="white" text-anchor="middle" letter-spacing="3">race</text>
+          <text x="107" y="154" font-family="'Barlow Condensed','Arial Narrow',sans-serif" font-weight="900" font-size="44" fill="white" text-anchor="middle" letter-spacing="1">forward</text>
+        </svg>
+        <span class="hero-logo-label">Race Forward</span>
+      </div>
+
+      <!-- The Object: baton, centre stage -->
+      <div class="hero-baton-wrap">
       <svg class="hero-baton-obj" id="heroBatonObj" viewBox="0 0 440 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Relay baton — Race Forward to Axelerant">
         <defs>
           <!-- Chrome cylinder: top=shadow edge, broad highlight peak at 32%, tapers to dark base -->
@@ -1428,7 +1490,15 @@
 
       <!-- Ground shadow beneath baton -->
       <div class="hero-baton-glow" id="heroBatonGlow"></div>
-    </div>
+      </div><!-- end .hero-baton-wrap -->
+
+      <!-- Axelerant logo -->
+      <div class="hero-logo-item hero-logo-ax" id="heroLogoAX">
+        <img class="hero-ax-img" src="https://www.axelerant.com/hubfs/Axelerant__logo_light.svg" alt="Axelerant" />
+        <span class="hero-logo-label">Axelerant</span>
+      </div>
+
+    </div><!-- end .hero-baton-row -->
 
     <!-- YEAR ONE + stats — appears after baton settles -->
     <div class="hero-obj-content" id="heroObjContent">
@@ -1449,6 +1519,7 @@
           <div class="hero-ostat-label">Team Members</div>
         </div>
       </div>
+      <p class="hero-obj-tagline">Not a campaign. Not a case study.<br>Just a year we ran together.</p>
     </div>
 
     <!-- Scroll cue -->
@@ -2036,6 +2107,8 @@
       var spotlight = document.getElementById('heroSpotlight');
       var content   = document.getElementById('heroObjContent');
       var scrollCue = document.getElementById('heroObjScroll');
+      var rfLogo    = document.getElementById('heroLogoRF');
+      var axLogo    = document.getElementById('heroLogoAX');
 
       if (!batonEl) return;
 
@@ -2051,34 +2124,36 @@
       }
 
       setTimeout(function() {
-        // Phase 1 (0.3s): ambient spotlight warms up from below
+        // Phase 1 (0.4s): logos fade in on either side
         setTimeout(function() {
+          if (rfLogo) rfLogo.classList.add('visible');
+          if (axLogo) axLogo.classList.add('visible');
           spotlight.classList.add('on');
-        }, 300);
+        }, 400);
 
-        // Phase 2 (0.85s): baton unfolds from edge-on to full width
+        // Phase 2 (1.1s): baton unfolds centre stage
         setTimeout(function() {
           batonEl.classList.add('revealed');
           glowEl.classList.add('on');
-        }, 850);
+        }, 1100);
 
-        // Phase 3 (2.5s): baton begins to float
+        // Phase 3 (2.8s): baton begins to float
         setTimeout(function() {
           batonEl.classList.add('floating');
-        }, 2500);
+        }, 2800);
 
-        // Phase 4 (2.2s): YEAR ONE fades in from below
+        // Phase 4 (2.4s): YEAR ONE + tagline fade in
         setTimeout(function() {
           content.classList.add('visible');
           document.querySelectorAll('.hero-ostat-num[data-target]').forEach(function(el) {
             countUp(el, parseInt(el.dataset.target), 1100);
           });
-        }, 2200);
+        }, 2400);
 
-        // Phase 5 (3.5s): scroll cue
+        // Phase 5 (3.8s): scroll cue
         setTimeout(function() {
           scrollCue.classList.add('visible');
-        }, 3500);
+        }, 3800);
       }, 150);
     })();
 
