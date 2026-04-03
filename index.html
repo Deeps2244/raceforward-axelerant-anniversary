@@ -252,19 +252,14 @@
       font-weight: 900;
       font-size: clamp(110px, 26vw, 220px);
       line-height: 0.82;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.04em;
       text-transform: uppercase;
       margin-bottom: 0;
-      /* Split-tone: RF red left → AX orange right */
-      background: linear-gradient(
-        90deg,
-        #C8102E 0%, #C8102E 42%,
-        #fff    48%, #fff    52%,
-        #F25A02 58%, #F25A02 100%
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #fff;
+    }
+    .hero-reveal-headline .hl-one {
+      display: block;
+      color: #F25A02;
     }
     .hero-reveal-divider {
       width: 80px;
@@ -1489,7 +1484,7 @@
     <!-- Exchange zone marker -->
     <div class="hero-exchange" id="heroExchange" aria-hidden="true">
       <div class="hero-exchange-ring"></div>
-      <div class="hero-exchange-label">Exchange<br>Zone</div>
+      <div class="hero-exchange-label">Baton<br>Exchange<br>Zone</div>
     </div>
 
     <!-- Left runner — Race Forward -->
@@ -1553,7 +1548,7 @@
     <!-- Center YEAR ONE reveal -->
     <div class="hero-reveal" id="heroReveal">
       <div class="hero-reveal-eyebrow">Race Forward × Axelerant</div>
-      <div class="hero-reveal-headline">YEAR<br>ONE</div>
+      <div class="hero-reveal-headline">YEAR<span class="hl-one">ONE</span></div>
       <div class="hero-reveal-divider"></div>
       <div class="hero-reveal-stats">
         <div class="hero-rstat">
