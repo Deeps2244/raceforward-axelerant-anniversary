@@ -38,236 +38,304 @@
       overflow-x: hidden;
     }
 
-    /* ── HERO ─────────────────────────────────────────────────────── */
+    /* ── HERO — BATON MOTION CINEMATIC ───────────────────────────── */
     .hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px 60px;
-      background: radial-gradient(ellipse at 50% 0%, #1a0900 0%, var(--black) 65%);
       position: relative;
       overflow: hidden;
+      background: #060606;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
+    /* Subtle grid */
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-image: repeating-linear-gradient(
-        0deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px
-      ),
-      repeating-linear-gradient(
-        90deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.018) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.018) 60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Track lane lines ── */
+    .hero-track {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0;
+      pointer-events: none;
+      z-index: 1;
+      padding: 20vh 0;
+    }
+    .hero-lane {
+      height: 1px;
+      background: rgba(255,255,255,0.035);
+      margin: 28px 0;
+    }
+    .hero-lane-center {
+      background: repeating-linear-gradient(
+        90deg, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) 28px,
+        transparent 28px, transparent 60px
       );
+    }
+
+    /* ── Exchange zone ── */
+    .hero-exchange {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 0.6s;
       pointer-events: none;
     }
-
-    .hero-eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 36px;
-      z-index: 1;
+    .hero-exchange.visible { opacity: 1; }
+    .hero-exchange-ring {
+      width: 72px; height: 72px;
+      border: 1.5px solid rgba(242,90,2,0.22);
+      border-radius: 50%;
+      animation: hz-pulse 2.2s ease-in-out infinite;
+      transition: transform 0.5s, opacity 0.5s, border-color 0.4s;
     }
-
-    .logo-rf {
-      display: block;
-      height: 44px;   /* chevron: 275×200 viewBox → ~61px wide at this height */
-      width: auto;
-      opacity: 1;
+    .hero-exchange.flash .hero-exchange-ring {
+      transform: scale(2.4);
+      opacity: 0;
+      border-color: rgba(242,90,2,0.9);
     }
-
-    .logo-divider {
-      width: 1px;
-      height: 28px;
-      background: rgba(255,255,255,0.3);
+    @keyframes hz-pulse {
+      0%,100% { transform: scale(1);    border-color: rgba(242,90,2,0.22); }
+      50%      { transform: scale(1.18); border-color: rgba(242,90,2,0.48); }
     }
-
-    .logo-ax {
-      display: block;
-      height: 28px;
-      width: auto;
-      opacity: 0.92;
-      /* Axelerant__logo_light.svg is already white/light — no filter needed */
-    }
-
-    .dot { color: var(--red); margin: 0 6px; }
-
-    .year-label {
+    .hero-exchange-label {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      color: rgba(248,206,3,0.65);  /* Tuscan Sun — tertiary accent */
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
+      color: rgba(242,90,2,0.3);
+      text-align: center;
+      line-height: 1.5;
     }
 
-    /* ── BATON CARD ───────────────────────────────────────────────── */
-    .baton-card {
-      background: var(--card);
-      color: var(--ink);
-      width: 100%;
-      border-radius: 6px;
-      padding: 44px 40px 36px;
-      position: relative;
-      box-shadow: 0 40px 120px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
-    }
-
-    /* Baton grip — 70% Axelerant orange : 30% RF red */
-    .baton-card::before {
-      content: '';
+    /* ── Runner orgs ── */
+    .hero-runner {
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 5px;
-      background: linear-gradient(
-        90deg,
-        #F25A02 0%, #F25A02 45%,
-        #082695 45%, #082695 55%,
-        #C8102E 55%, #C8102E 100%
-      );
-      border-radius: 6px 6px 0 0;
-    }
-
-    .card-brand {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 4px;
-    }
-
-    .card-brand span { color: var(--ink); }
-
-    .card-accent {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      font-size: 22px;
-      color: var(--orange);    /* Axelerant Tangerine Dream */
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-
-    .card-headline {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 900;
-      font-size: clamp(90px, 22vw, 128px);
-      line-height: 0.88;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      color: var(--ink);
-      margin-bottom: 28px;
-    }
-
-    /* Baton chip */
-    .baton-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--ink);
-      color: var(--white);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 6px 14px 6px 8px;
-      border-radius: 20px;
-      margin-bottom: 28px;
-    }
-
-    .baton-pip {
-      width: 28px;
-      height: 14px;
-      background: var(--red);
-      border-radius: 7px;
-      position: relative;
-      flex-shrink: 0;
-    }
-
-    .baton-pip::after {
-      content: '';
-      position: absolute;
-      right: 2px;
       top: 50%;
       transform: translateY(-50%);
-      width: 10px;
-      height: 10px;
-      background: #fff;
-      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      z-index: 4;
+      opacity: 0;
+      transition: opacity 0.7s;
     }
+    .hero-runner.visible { opacity: 1; }
+    .hero-runner-left  { left: 5vw;  flex-direction: row; }
+    .hero-runner-right { right: 5vw; flex-direction: row-reverse; }
 
-    /* Divider */
-    .card-divider {
-      height: 1px;
-      background: rgba(26,26,26,0.12);
-      margin-bottom: 24px;
+    .hero-rf-svg { height: 56px; width: auto; }
+    .hero-ax-img { height: 30px; width: auto; opacity: 0.85; }
+
+    .hero-runner-info { text-align: left; }
+    .hero-runner-right .hero-runner-info { text-align: right; }
+    .hero-runner-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
+      line-height: 1;
+      margin-bottom: 4px;
     }
-
-    /* Stats row */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-    }
-
-    .stat {
-      padding-right: 16px;
-    }
-
-    .stat + .stat {
-      padding-left: 16px;
-      border-left: 1px solid rgba(26,26,26,0.12);
-    }
-
-    .stat-label {
+    .hero-runner-role {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--light);
-      margin-bottom: 4px;
+      color: rgba(255,255,255,0.22);
+      transition: color 0.5s;
+    }
+    .hero-runner.bright .hero-runner-role { color: var(--orange); }
+    .hero-runner-left.bright  .hero-runner-role { color: var(--red); }
+
+    /* ── Baton ── */
+    .hero-baton-stage {
+      position: absolute;
+      top: 50%;
+      left: -220px;
+      transform: translateY(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .hero-baton-svg {
+      width: 200px;
+      height: 36px;
+      filter: drop-shadow(0 0 16px rgba(242,90,2,0.75))
+              drop-shadow(0 0 4px rgba(248,180,30,0.6))
+              drop-shadow(0 3px 10px rgba(0,0,0,0.6));
+    }
+    .hero-baton-trail {
+      position: absolute;
+      right: 195px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 4px;
+      width: 0;
+      background: linear-gradient(to left, rgba(242,90,2,0.55), rgba(248,180,30,0.1), transparent);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    /* Ghost trail copies */
+    .hero-baton-ghost {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 36px;
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .stat-value {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.1;
-      color: var(--ink);
+    /* ── Flash overlay ── */
+    .hero-flash {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(242,90,2,0.22) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      z-index: 20;
+      transition: opacity 0.12s;
     }
+    .hero-flash.on { opacity: 1; }
 
-    /* Motion trail below card */
-    .motion-trail {
-      width: 100%;
-      max-width: 480px;
-      margin-top: 20px;
-      z-index: 1;
+    /* ── Center YEAR ONE reveal ── */
+    .hero-reveal {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.88) translateY(20px);
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.8s cubic-bezier(0.34,1.56,0.64,1);
     }
-
-    .trail-line {
-      height: 2px;
-      background: linear-gradient(90deg, var(--red) 0%, rgba(200,16,46,0.3) 60%, transparent 100%);
-      margin-bottom: 6px;
-      border-radius: 1px;
+    .hero-reveal.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
     }
-
-    .trail-line:nth-child(2) { width: 75%; opacity: 0.5; }
-    .trail-line:nth-child(3) { width: 45%; opacity: 0.25; }
-
-    .card-tagline {
+    .hero-reveal-eyebrow {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 11px;
-      letter-spacing: 0.14em;
+      font-weight: 700;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.3);
-      text-align: center;
-      margin-top: 28px;
-      z-index: 1;
+      margin-bottom: 12px;
+    }
+    .hero-reveal-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(110px, 26vw, 220px);
+      line-height: 0.82;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: 0;
+      /* Split-tone: RF red left → AX orange right */
+      background: linear-gradient(
+        90deg,
+        #C8102E 0%, #C8102E 42%,
+        #fff    48%, #fff    52%,
+        #F25A02 58%, #F25A02 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-reveal-divider {
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), var(--orange));
+      margin: 24px auto 22px;
+      border-radius: 1px;
+    }
+    .hero-reveal-stats {
+      display: flex;
+      gap: clamp(24px, 5vw, 60px);
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .hero-rstat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 5px;
+    }
+    .hero-rstat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .hero-reveal-tagline {
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.28);
+      letter-spacing: 0.04em;
+      max-width: 320px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Scroll cue ── */
+    .hero-scroll-cue {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0;
+      z-index: 6;
+      transition: opacity 0.6s;
+    }
+    .hero-scroll-cue.visible { opacity: 1; }
+    .hero-scroll-cue-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.25));
+      animation: scroll-bob 1.8s ease-in-out infinite;
+    }
+    .hero-scroll-cue-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+    @keyframes scroll-bob {
+      0%,100% { opacity: 0.3; transform: scaleY(1); }
+      50%      { opacity: 1;   transform: scaleY(1.15); }
     }
 
     /* ── MILESTONES OVERFLOW TOGGLE ──────────────────────────────── */
@@ -312,164 +380,6 @@
       transform: rotate(180deg);
     }
     .splits-board { position: relative; }
-
-    /* ── HERO TOUCH INTERACTIONS ─────────────────────────────────── */
-
-    /* Card tilt wrapper — preserves 3D perspective */
-    .baton-card-wrap {
-      width: 100%;
-      max-width: 480px;
-      perspective: 900px;
-      z-index: 1;
-    }
-
-    .baton-card {
-      transform-style: preserve-3d;
-      transition: transform 0.08s linear, box-shadow 0.2s;
-      will-change: transform;
-    }
-
-    /* Shimmer sweep on the top gradient bar */
-    @keyframes shimmer-bar {
-      0%   { background-position: -200% center; }
-      100% { background-position: 300% center; }
-    }
-    .baton-card.shimmering::before {
-      background: linear-gradient(
-        90deg,
-        #F25A02 0%, #F25A02 30%,
-        #ffd000 42%, #fff 46%, #ffd000 50%,
-        #082695 55%, #082695 65%,
-        #C8102E 75%, #C8102E 100%
-      );
-      background-size: 200% 100%;
-      animation: shimmer-bar 0.7s ease forwards;
-    }
-
-    /* Baton chip — tap target */
-    .baton-chip {
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      transition: transform 0.12s, box-shadow 0.2s;
-    }
-    .baton-chip:active { transform: scale(0.95); }
-    .baton-chip.baton-active {
-      background: var(--orange);
-      box-shadow: 0 0 20px rgba(242,90,2,0.45);
-      transition: background 0.25s, box-shadow 0.25s;
-    }
-
-    /* Baton pip sliding animation */
-    .baton-pip {
-      overflow: hidden;
-      transition: background 0.3s;
-    }
-    .baton-pip::after {
-      transition: right 0.45s cubic-bezier(0.34,1.56,0.64,1), left 0.45s cubic-bezier(0.34,1.56,0.64,1);
-    }
-    .baton-chip.baton-active .baton-pip {
-      background: #fff;
-    }
-    .baton-chip.baton-active .baton-pip::after {
-      background: var(--orange);
-      right: auto;
-      left: 2px;
-    }
-
-    /* Journey reveal */
-    .baton-journey {
-      display: grid;
-      grid-template-rows: 0fr;
-      opacity: 0;
-      transition: grid-template-rows 0.42s ease, opacity 0.3s ease, margin 0.3s ease;
-      margin-top: 0;
-    }
-    .baton-journey.open {
-      grid-template-rows: 1fr;
-      opacity: 1;
-      margin-top: 18px;
-    }
-    .baton-journey-inner {
-      overflow: hidden;
-    }
-    .bj-handoff {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-    .bj-org-rf {
-      color: var(--red);
-    }
-    .bj-arrow {
-      flex: 1;
-      border-top: 2px dashed rgba(26,26,26,0.25);
-      margin: 0 4px;
-      position: relative;
-    }
-    .bj-arrow::after {
-      content: '→';
-      position: absolute;
-      right: -4px;
-      top: -11px;
-      font-size: 14px;
-      color: rgba(26,26,26,0.4);
-    }
-    .bj-org-ax {
-      color: var(--orange);
-    }
-    .bj-date {
-      font-family: 'Barlow', sans-serif;
-      font-size: 11px;
-      color: var(--mid);
-      letter-spacing: 0.04em;
-      margin-bottom: 10px;
-    }
-    .bj-steps {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .bj-step {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 3px 9px;
-      border-radius: 3px;
-      background: rgba(26,26,26,0.07);
-      color: var(--mid);
-      border: 1px solid rgba(26,26,26,0.1);
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 0.3s, transform 0.3s;
-    }
-    .bj-step.visible {
-      opacity: 1;
-      transform: none;
-    }
-    .bj-step.done {
-      background: rgba(242,90,2,0.1);
-      border-color: rgba(242,90,2,0.25);
-      color: var(--orange);
-    }
-    .bj-step.done::before { content: '✓ '; }
-
-    /* Particle canvas */
-    #batonCanvas {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 10;
-      border-radius: 6px;
-    }
 
     /* ── SECTION BASE ─────────────────────────────────────────────── */
     section {
@@ -1564,106 +1474,110 @@
 </head>
 <body>
 
-  <!-- ── HERO ──────────────────────────────────────────────────────── -->
-  <div class="hero">
-    <div class="hero-eyebrow">
-      <!--
-        Race Forward logo: pentagon/chevron shape with 5-colour rainbow border.
-        Pixel-traced from raceforward.org — polygon vertices from source 300×226px:
-          top-left(23,12) → top-right(188,12) → right-apex(288,112)
-          → bottom-right(216,210) → bottom-left(33,210) → left-top(13,30)
-        Normalised to viewBox 275×200.
-        Border colours (clockwise): orange #F47B20, coral-red #E84732,
-        purple #7B4BA3, teal #1A9BAA, green #3EA44A.
-      -->
-      <svg class="logo-rf" viewBox="0 0 275 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Race Forward">
-        <!-- Black chevron body -->
-        <polygon points="10,0 175,0 275,100 203,200 20,200 0,25" fill="#0d0d0d"/>
-        <!-- 5-colour border — clockwise from top -->
-        <!-- Top: orange -->
-        <line   x1="10"  y1="0"   x2="175" y2="0"   stroke="#F47B20" stroke-width="9" stroke-linecap="butt"/>
-        <!-- Upper-right: coral-red -->
-        <line   x1="175" y1="0"   x2="275" y2="100"  stroke="#E84732" stroke-width="9" stroke-linecap="butt"/>
-        <!-- Lower-right + bottom: purple -->
-        <polyline points="275,100 203,200 112,200"    stroke="#7B4BA3" stroke-width="9" fill="none" stroke-linejoin="miter" stroke-linecap="butt"/>
-        <!-- Bottom-left: teal -->
-        <line   x1="112" y1="200" x2="20"  y2="200"  stroke="#1A9BAA" stroke-width="9" stroke-linecap="butt"/>
-        <!-- Left: green -->
-        <polyline points="20,200 0,25 10,0"           stroke="#3EA44A" stroke-width="9" fill="none" stroke-linejoin="miter" stroke-linecap="butt"/>
-        <!-- White "race forward" — lowercase, bold condensed, centred in body -->
-        <text x="107" y="91"
-          font-family="'Barlow Condensed','Arial Narrow',sans-serif"
-          font-weight="900" font-size="52" fill="white"
-          text-anchor="middle" letter-spacing="3">race</text>
-        <text x="107" y="154"
-          font-family="'Barlow Condensed','Arial Narrow',sans-serif"
-          font-weight="900" font-size="44" fill="white"
-          text-anchor="middle" letter-spacing="1">forward</text>
-      </svg>
-      <span class="logo-divider"></span>
-      <img class="logo-ax" src="https://www.axelerant.com/hubfs/Axelerant__logo_light.svg" alt="Axelerant" />
-      <span class="dot">·</span>
-      <span class="year-label">Year One · 2025–2026</span>
+  <!-- ── HERO — BATON MOTION ──────────────────────────────────────── -->
+  <div class="hero" id="heroSection">
+
+    <!-- Track lane lines -->
+    <div class="hero-track" aria-hidden="true">
+      <div class="hero-lane"></div>
+      <div class="hero-lane"></div>
+      <div class="hero-lane hero-lane-center"></div>
+      <div class="hero-lane"></div>
+      <div class="hero-lane"></div>
     </div>
 
-    <div class="baton-card-wrap">
-      <div class="baton-card" id="batonCard">
-        <canvas id="batonCanvas"></canvas>
-        <div class="card-brand"><span>Race Forward</span> × Axelerant</div>
-        <div class="card-accent">Forward</div>
+    <!-- Exchange zone marker -->
+    <div class="hero-exchange" id="heroExchange" aria-hidden="true">
+      <div class="hero-exchange-ring"></div>
+      <div class="hero-exchange-label">Exchange<br>Zone</div>
+    </div>
 
-        <div class="card-headline">YEAR<br>ONE</div>
-
-        <div class="baton-chip" id="batonChip">
-          <span class="baton-pip" id="batonPip"></span>
-          Baton Passed
-        </div>
-
-        <!-- Journey reveal — opens automatically -->
-        <div class="baton-journey" id="batonJourney">
-          <div class="baton-journey-inner">
-            <div class="bj-handoff">
-              <span class="bj-org-rf">Race Forward</span>
-              <span class="bj-arrow"></span>
-              <span class="bj-org-ax">Axelerant</span>
-            </div>
-            <div class="bj-date">Digital estate handed off · April 2025</div>
-            <div class="bj-steps">
-              <span class="bj-step done">Discovery</span>
-              <span class="bj-step done">Migration</span>
-              <span class="bj-step done">6 Sites Live</span>
-              <span class="bj-step done">Zero Downtime</span>
-              <span class="bj-step done">CDM Active</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-divider" style="margin-top:18px;"></div>
-
-        <div class="stats-row">
-          <div class="stat">
-            <div class="stat-label">Sites</div>
-            <div class="stat-value">6 Live<br>Properties</div>
-          </div>
-          <div class="stat">
-            <div class="stat-label">Status</div>
-            <div class="stat-value">In<br>Motion</div>
-          </div>
-          <div class="stat">
-            <div class="stat-label">Downtime</div>
-            <div class="stat-value">Zero</div>
-          </div>
-        </div>
+    <!-- Left runner — Race Forward -->
+    <div class="hero-runner hero-runner-left" id="heroRunnerRF">
+      <svg class="hero-rf-svg" viewBox="0 0 275 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Race Forward">
+        <polygon points="10,0 175,0 275,100 203,200 20,200 0,25" fill="#0d0d0d"/>
+        <line x1="10" y1="0" x2="175" y2="0" stroke="#F47B20" stroke-width="9" stroke-linecap="butt"/>
+        <line x1="175" y1="0" x2="275" y2="100" stroke="#E84732" stroke-width="9" stroke-linecap="butt"/>
+        <polyline points="275,100 203,200 112,200" stroke="#7B4BA3" stroke-width="9" fill="none" stroke-linecap="butt"/>
+        <line x1="112" y1="200" x2="20" y2="200" stroke="#1A9BAA" stroke-width="9" stroke-linecap="butt"/>
+        <polyline points="20,200 0,25 10,0" stroke="#3EA44A" stroke-width="9" fill="none" stroke-linecap="butt"/>
+        <text x="107" y="91" font-family="'Barlow Condensed','Arial Narrow',sans-serif" font-weight="900" font-size="52" fill="white" text-anchor="middle" letter-spacing="3">race</text>
+        <text x="107" y="154" font-family="'Barlow Condensed','Arial Narrow',sans-serif" font-weight="900" font-size="44" fill="white" text-anchor="middle" letter-spacing="1">forward</text>
+      </svg>
+      <div class="hero-runner-info">
+        <div class="hero-runner-name">Race Forward</div>
+        <div class="hero-runner-role" id="rfRole">Outgoing Runner</div>
       </div>
     </div>
 
-    <div class="motion-trail">
-      <div class="trail-line"></div>
-      <div class="trail-line"></div>
-      <div class="trail-line"></div>
+    <!-- Right runner — Axelerant -->
+    <div class="hero-runner hero-runner-right" id="heroRunnerAX">
+      <img class="hero-ax-img" src="https://www.axelerant.com/hubfs/Axelerant__logo_light.svg" alt="Axelerant" />
+      <div class="hero-runner-info">
+        <div class="hero-runner-name">Axelerant</div>
+        <div class="hero-runner-role" id="axRole">Incoming Runner</div>
+      </div>
     </div>
 
-    <p class="card-tagline">Not a campaign. Not a case study. Just a year we ran together.</p>
+    <!-- The Baton -->
+    <div class="hero-baton-stage" id="heroBatonStage" aria-hidden="true">
+      <div class="hero-baton-trail" id="heroBatonTrail"></div>
+      <svg class="hero-baton-svg" viewBox="0 0 200 36" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="baton-body" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#F8B040"/>
+            <stop offset="45%"  stop-color="#F25A02"/>
+            <stop offset="100%" stop-color="#C04000"/>
+          </linearGradient>
+          <radialGradient id="baton-cap-g" cx="35%" cy="30%" r="65%">
+            <stop offset="0%"   stop-color="#F8C060"/>
+            <stop offset="100%" stop-color="#C84800"/>
+          </radialGradient>
+        </defs>
+        <!-- Body -->
+        <rect x="18" y="8" width="164" height="20" rx="10" fill="url(#baton-body)"/>
+        <!-- Highlight stripe -->
+        <rect x="22" y="10" width="152" height="7" rx="3.5" fill="rgba(255,255,255,0.28)"/>
+        <!-- Left cap -->
+        <circle cx="18" cy="18" r="10" fill="url(#baton-cap-g)"/>
+        <circle cx="15" cy="14"  r="4"  fill="rgba(255,255,255,0.18)"/>
+        <!-- Right cap -->
+        <circle cx="182" cy="18" r="10" fill="url(#baton-cap-g)"/>
+        <circle cx="179" cy="14"  r="4"  fill="rgba(255,255,255,0.12)"/>
+      </svg>
+    </div>
+
+    <!-- Flash overlay -->
+    <div class="hero-flash" id="heroFlash" aria-hidden="true"></div>
+
+    <!-- Center YEAR ONE reveal -->
+    <div class="hero-reveal" id="heroReveal">
+      <div class="hero-reveal-eyebrow">Race Forward × Axelerant</div>
+      <div class="hero-reveal-headline">YEAR<br>ONE</div>
+      <div class="hero-reveal-divider"></div>
+      <div class="hero-reveal-stats">
+        <div class="hero-rstat">
+          <div class="hero-rstat-num" data-target="6">0</div>
+          <div class="hero-rstat-label">Sites Live</div>
+        </div>
+        <div class="hero-rstat">
+          <div class="hero-rstat-num">Zero</div>
+          <div class="hero-rstat-label">Downtime</div>
+        </div>
+        <div class="hero-rstat">
+          <div class="hero-rstat-num" data-target="13">0</div>
+          <div class="hero-rstat-label">Team Members</div>
+        </div>
+      </div>
+      <div class="hero-reveal-tagline">Not a campaign. Not a case study. Just a year we ran together.</div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="hero-scroll-cue" id="heroScrollCue" aria-hidden="true">
+      <div class="hero-scroll-cue-label">Scroll</div>
+      <div class="hero-scroll-cue-line"></div>
+    </div>
+
   </div>
 
   <div class="rule"></div>
@@ -2239,144 +2153,110 @@
       }
     })();
 
-    /* ── HERO BATON INTERACTIVITY ─────────────────────────────────── */
+    /* ── HERO — BATON MOTION CINEMATIC ────────────────────────────── */
     (function() {
-      const card      = document.getElementById('batonCard');
-      const wrap      = card.parentElement;
-      const chip      = document.getElementById('batonChip');
-      const journey   = document.getElementById('batonJourney');
-      const canvas    = document.getElementById('batonCanvas');
-      const ctx       = canvas.getContext('2d');
-      let open        = false;
-      let tiltActive  = false;
+      const baton    = document.getElementById('heroBatonStage');
+      const trail    = document.getElementById('heroBatonTrail');
+      const flash    = document.getElementById('heroFlash');
+      const reveal   = document.getElementById('heroReveal');
+      const exchange = document.getElementById('heroExchange');
+      const rfRunner = document.getElementById('heroRunnerRF');
+      const axRunner = document.getElementById('heroRunnerAX');
+      const scrollCue = document.getElementById('heroScrollCue');
 
-      // ── 1. Resize canvas to match card ──────────────────────────
-      function resizeCanvas() {
-        canvas.width  = card.offsetWidth;
-        canvas.height = card.offsetHeight;
-      }
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
+      if (!baton) return;
 
-      // ── 2. Particle burst ───────────────────────────────────────
-      const COLORS = ['#F25A02','#C8102E','#082695','#F8CE03','#fff'];
-      function burst(originX, originY) {
-        resizeCanvas();
-        const particles = [];
-        for (let i = 0; i < 22; i++) {
-          const angle  = (Math.PI * 2 * i) / 22 + (Math.random() - 0.5) * 0.4;
-          const speed  = 2.5 + Math.random() * 4.5;
-          particles.push({
-            x: originX, y: originY,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed - 1.5,
-            r: 2.5 + Math.random() * 3,
-            color: COLORS[Math.floor(Math.random() * COLORS.length)],
-            alpha: 1,
-            gravity: 0.18 + Math.random() * 0.1
-          });
-        }
-        let frame;
-        function draw() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          let alive = false;
-          particles.forEach(p => {
-            if (p.alpha <= 0) return;
-            p.x  += p.vx;
-            p.y  += p.vy;
-            p.vy += p.gravity;
-            p.vx *= 0.97;
-            p.alpha -= 0.026;
-            alive = true;
-            ctx.globalAlpha = Math.max(0, p.alpha);
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.fill();
-          });
-          ctx.globalAlpha = 1;
-          if (alive) frame = requestAnimationFrame(draw);
-          else ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-        cancelAnimationFrame(frame);
-        draw();
+      // Count-up utility
+      function countUp(el, target, duration) {
+        const t0 = performance.now();
+        (function tick(now) {
+          const p    = Math.min((now - t0) / duration, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(ease * target);
+          if (p < 1) requestAnimationFrame(tick);
+          else el.textContent = target;
+        })(t0);
       }
 
-      // ── 3. Card tilt on mouse/touch ────────────────────────────
-      function tilt(e) {
-        if (!tiltActive) return;
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
-        const rotX = (y - cy) / cy * 6;
-        const rotY = (cx - x) / cx * 6;
-        card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-      }
+      function runSequence() {
+        const vw = window.innerWidth;
+        const isMobile = vw < 600;
 
-      // ── 4. Auto-trigger animation on page load via IntersectionObserver
-      function autoTriggerAnimation() {
-        // Trigger 1.2s after page load
+        // Positions: RF logo at ~10vw, AX logo at ~90vw
+        // Baton travels from just right of RF logo to just left of AX logo
+        const batonW   = 200;
+        const startX   = Math.round(vw * (isMobile ? 0.08 : 0.12));
+        const midX     = Math.round(vw / 2 - batonW / 2);
+        const endX     = Math.round(vw * (isMobile ? 0.82 : 0.86) - batonW);
+
+        // ── Phase 1 (0.35s): Runners + exchange zone fade in ──────
         setTimeout(() => {
-          // Shimmer on card top bar
-          card.classList.add('shimmering');
+          rfRunner.classList.add('visible');
+          axRunner.classList.add('visible');
+          exchange.classList.add('visible');
+        }, 350);
 
-          // Activate baton chip
-          chip.classList.add('baton-active');
+        // ── Phase 2 (0.85s): Baton appears near RF and launches ───
+        setTimeout(() => {
+          baton.style.transition = 'none';
+          baton.style.left       = startX + 'px';
+          baton.style.opacity    = '1';
+        }, 850);
 
-          // Open journey
-          journey.classList.add('open');
+        // ── Phase 2b (0.95s): Accelerate to exchange zone ─────────
+        setTimeout(() => {
+          const dur = isMobile ? 700 : 900;
+          baton.style.transition = `left ${dur}ms cubic-bezier(0.4, 0, 0.15, 1)`;
+          baton.style.left       = midX + 'px';
+          // Grow trail behind baton
+          trail.style.transition = `width ${dur}ms linear`;
+          trail.style.width      = (midX - startX + batonW * 0.5) + 'px';
+        }, 950);
 
-          // Stagger step badges
-          const steps = document.querySelectorAll('.bj-step');
-          steps.forEach((step, idx) => {
-            setTimeout(() => {
-              step.classList.add('visible');
-            }, idx * 80);
+        // ── Phase 3 (1.9s): Exchange flash ────────────────────────
+        setTimeout(() => {
+          flash.classList.add('on');
+          exchange.classList.add('flash');
+          rfRunner.classList.add('bright');
+          setTimeout(() => flash.classList.remove('on'), 180);
+          setTimeout(() => exchange.classList.remove('flash'), 500);
+        }, isMobile ? 1650 : 1900);
+
+        // ── Phase 3b (2.0s): Baton continues to AX side ───────────
+        setTimeout(() => {
+          const dur2 = isMobile ? 550 : 680;
+          baton.style.transition = `left ${dur2}ms cubic-bezier(0.25, 1, 0.5, 1)`;
+          baton.style.left       = endX + 'px';
+          trail.style.transition = `width ${dur2}ms linear, opacity 0.5s 0.3s`;
+          trail.style.width      = (endX - startX + batonW * 0.8) + 'px';
+          axRunner.classList.add('bright');
+        }, isMobile ? 1750 : 2050);
+
+        // ── Phase 4 (2.85s): Baton fades, YEAR ONE explodes in ────
+        setTimeout(() => {
+          baton.style.transition  = 'opacity 0.5s, left 0.5s';
+          baton.style.opacity     = '0';
+          trail.style.opacity     = '0';
+          reveal.classList.add('visible');
+
+          // Count up stat numbers
+          document.querySelectorAll('.hero-rstat-num[data-target]').forEach(el => {
+            countUp(el, parseInt(el.dataset.target), 900);
           });
 
-          // Fire particle burst from chip center
-          const chipRect = chip.getBoundingClientRect();
-          const cardRect = card.getBoundingClientRect();
-          const originX = chipRect.left - cardRect.left + chipRect.width / 2;
-          const originY = chipRect.top - cardRect.top + chipRect.height / 2;
-          burst(originX, originY);
+          // Second flash on YEAR ONE reveal
+          flash.classList.add('on');
+          setTimeout(() => flash.classList.remove('on'), 120);
+        }, isMobile ? 2450 : 2900);
 
-          // Clean up shimmer class after animation
-          setTimeout(() => {
-            card.classList.remove('shimmering');
-          }, 700);
-        }, 1200);
+        // ── Phase 5 (3.6s): Scroll cue appears ───────────────────
+        setTimeout(() => {
+          scrollCue.classList.add('visible');
+        }, isMobile ? 3200 : 3800);
       }
 
-      // Trigger auto-animation on hero visibility
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            autoTriggerAnimation();
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.5 });
-
-      observer.observe(card);
-
-      // ── 5. 3D tilt interaction ─────────────────────────────────
-      wrap.addEventListener('mouseenter', () => { tiltActive = true; });
-      wrap.addEventListener('mouseleave', () => {
-        tiltActive = false;
-        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
-      });
-      wrap.addEventListener('mousemove', tilt);
-
-      // Touch tilt
-      wrap.addEventListener('touchstart', () => { tiltActive = true; });
-      wrap.addEventListener('touchend', () => {
-        tiltActive = false;
-        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
-      });
-      wrap.addEventListener('touchmove', tilt);
+      // Start sequence after a brief paint settle
+      setTimeout(runSequence, 100);
     })();
 
     /* ── PARTNER STATS INTERACTIVITY ───────────────────────────────── */
