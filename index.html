@@ -108,11 +108,9 @@
       background: var(--card);
       color: var(--ink);
       width: 100%;
-      max-width: 480px;
       border-radius: 6px;
       padding: 44px 40px 36px;
       position: relative;
-      z-index: 1;
       box-shadow: 0 40px 120px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
     }
 
@@ -271,6 +269,192 @@
       margin-top: 28px;
       z-index: 1;
     }
+
+    /* ── HERO TOUCH INTERACTIONS ─────────────────────────────────── */
+
+    /* Card tilt wrapper — preserves 3D perspective */
+    .baton-card-wrap {
+      width: 100%;
+      max-width: 480px;
+      perspective: 900px;
+      z-index: 1;
+    }
+
+    .baton-card {
+      transform-style: preserve-3d;
+      transition: transform 0.08s linear, box-shadow 0.2s;
+      will-change: transform;
+    }
+
+    /* Shimmer sweep on the top gradient bar */
+    @keyframes shimmer-bar {
+      0%   { background-position: -200% center; }
+      100% { background-position: 300% center; }
+    }
+    .baton-card.shimmering::before {
+      background: linear-gradient(
+        90deg,
+        #F25A02 0%, #F25A02 30%,
+        #ffd000 42%, #fff 46%, #ffd000 50%,
+        #082695 55%, #082695 65%,
+        #C8102E 75%, #C8102E 100%
+      );
+      background-size: 200% 100%;
+      animation: shimmer-bar 0.7s ease forwards;
+    }
+
+    /* Baton chip — tap target */
+    .baton-chip {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      transition: transform 0.12s, box-shadow 0.2s;
+    }
+    .baton-chip:active { transform: scale(0.95); }
+    .baton-chip.baton-active {
+      background: var(--orange);
+      box-shadow: 0 0 20px rgba(242,90,2,0.45);
+      transition: background 0.25s, box-shadow 0.25s;
+    }
+
+    /* Baton pip sliding animation */
+    .baton-pip {
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .baton-pip::after {
+      transition: right 0.45s cubic-bezier(0.34,1.56,0.64,1), left 0.45s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .baton-chip.baton-active .baton-pip {
+      background: #fff;
+    }
+    .baton-chip.baton-active .baton-pip::after {
+      background: var(--orange);
+      right: auto;
+      left: 2px;
+    }
+
+    /* Journey reveal */
+    .baton-journey {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition: grid-template-rows 0.42s ease, opacity 0.3s ease, margin 0.3s ease;
+      margin-top: 0;
+    }
+    .baton-journey.open {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      margin-top: 18px;
+    }
+    .baton-journey-inner {
+      overflow: hidden;
+    }
+    .bj-handoff {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .bj-org-rf {
+      color: var(--red);
+    }
+    .bj-arrow {
+      flex: 1;
+      border-top: 2px dashed rgba(26,26,26,0.25);
+      margin: 0 4px;
+      position: relative;
+    }
+    .bj-arrow::after {
+      content: '→';
+      position: absolute;
+      right: -4px;
+      top: -11px;
+      font-size: 14px;
+      color: rgba(26,26,26,0.4);
+    }
+    .bj-org-ax {
+      color: var(--orange);
+    }
+    .bj-date {
+      font-family: 'Barlow', sans-serif;
+      font-size: 11px;
+      color: var(--mid);
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
+    .bj-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .bj-step {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 3px;
+      background: rgba(26,26,26,0.07);
+      color: var(--mid);
+      border: 1px solid rgba(26,26,26,0.1);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .bj-step.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .bj-step.done {
+      background: rgba(242,90,2,0.1);
+      border-color: rgba(242,90,2,0.25);
+      color: var(--orange);
+    }
+    .bj-step.done::before { content: '✓ '; }
+
+    /* Tap hint pulse on chip — draws attention on first load */
+    @keyframes chip-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(200,16,46,0.0); }
+      50%      { box-shadow: 0 0 0 8px rgba(200,16,46,0.18); }
+    }
+    .baton-chip.hint-pulse {
+      animation: chip-pulse 1.6s ease-in-out 1.2s 2;
+    }
+
+    /* Particle canvas */
+    #batonCanvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 10;
+      border-radius: 6px;
+    }
+
+    /* Touch hint label */
+    .tap-hint {
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+    .tap-hint.hidden { opacity: 0; }
 
     /* ── SECTION BASE ─────────────────────────────────────────────── */
     section {
@@ -1156,32 +1340,56 @@
       <span class="year-label">Year One · 2025–2026</span>
     </div>
 
-    <div class="baton-card">
-      <div class="card-brand"><span>Race Forward</span> × Axelerant</div>
-      <div class="card-accent">Forward</div>
+    <div class="baton-card-wrap">
+      <div class="baton-card" id="batonCard">
+        <canvas id="batonCanvas"></canvas>
+        <div class="card-brand"><span>Race Forward</span> × Axelerant</div>
+        <div class="card-accent">Forward</div>
 
-      <div class="card-headline">YEAR<br>ONE</div>
+        <div class="card-headline">YEAR<br>ONE</div>
 
-      <div class="baton-chip">
-        <span class="baton-pip"></span>
-        Baton Passed
-      </div>
-
-      <div class="card-divider"></div>
-
-      <div class="stats-row">
-        <div class="stat">
-          <div class="stat-label">Sites</div>
-          <div class="stat-value">6 Live<br>Properties</div>
+        <div class="baton-chip hint-pulse" id="batonChip" role="button" aria-label="Reveal baton pass story" tabindex="0">
+          <span class="baton-pip" id="batonPip"></span>
+          Baton Passed
         </div>
-        <div class="stat">
-          <div class="stat-label">Status</div>
-          <div class="stat-value">In<br>Motion</div>
+
+        <!-- Journey reveal — opens on chip tap -->
+        <div class="baton-journey" id="batonJourney">
+          <div class="baton-journey-inner">
+            <div class="bj-handoff">
+              <span class="bj-org-rf">Race Forward</span>
+              <span class="bj-arrow"></span>
+              <span class="bj-org-ax">Axelerant</span>
+            </div>
+            <div class="bj-date">Digital estate handed off · April 2025</div>
+            <div class="bj-steps">
+              <span class="bj-step done">Discovery</span>
+              <span class="bj-step done">Migration</span>
+              <span class="bj-step done">6 Sites Live</span>
+              <span class="bj-step done">Zero Downtime</span>
+              <span class="bj-step done">CDM Active</span>
+            </div>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-label">Downtime</div>
-          <div class="stat-value">Zero</div>
+
+        <div class="card-divider" style="margin-top:18px;"></div>
+
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-label">Sites</div>
+            <div class="stat-value">6 Live<br>Properties</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Status</div>
+            <div class="stat-value">In<br>Motion</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Downtime</div>
+            <div class="stat-value">Zero</div>
+          </div>
         </div>
+
+        <span class="tap-hint" id="tapHint">Tap the baton to reveal the story</span>
       </div>
     </div>
 
@@ -1793,6 +2001,160 @@
 
 
   <script>
+    /* ── HERO BATON INTERACTIVITY ─────────────────────────────────── */
+    (function() {
+      const card      = document.getElementById('batonCard');
+      const wrap      = card.parentElement;
+      const chip      = document.getElementById('batonChip');
+      const journey   = document.getElementById('batonJourney');
+      const tapHint   = document.getElementById('tapHint');
+      const canvas    = document.getElementById('batonCanvas');
+      const ctx       = canvas.getContext('2d');
+      let open        = false;
+      let tiltActive  = false;
+
+      // ── 1. Resize canvas to match card ──────────────────────────
+      function resizeCanvas() {
+        canvas.width  = card.offsetWidth;
+        canvas.height = card.offsetHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      // ── 2. Particle burst ───────────────────────────────────────
+      const COLORS = ['#F25A02','#C8102E','#082695','#F8CE03','#fff'];
+      function burst(originX, originY) {
+        resizeCanvas();
+        const particles = [];
+        for (let i = 0; i < 22; i++) {
+          const angle  = (Math.PI * 2 * i) / 22 + (Math.random() - 0.5) * 0.4;
+          const speed  = 2.5 + Math.random() * 4.5;
+          particles.push({
+            x: originX, y: originY,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 1.5,
+            r: 2.5 + Math.random() * 3,
+            color: COLORS[Math.floor(Math.random() * COLORS.length)],
+            alpha: 1,
+            gravity: 0.18 + Math.random() * 0.1
+          });
+        }
+        let frame;
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let alive = false;
+          particles.forEach(p => {
+            if (p.alpha <= 0) return;
+            p.x  += p.vx;
+            p.y  += p.vy;
+            p.vy += p.gravity;
+            p.vx *= 0.97;
+            p.alpha -= 0.026;
+            alive = true;
+            ctx.globalAlpha = Math.max(0, p.alpha);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+          });
+          ctx.globalAlpha = 1;
+          if (alive) frame = requestAnimationFrame(draw);
+          else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        cancelAnimationFrame(frame);
+        draw();
+      }
+
+      // ── 3. Baton chip tap ────────────────────────────────────────
+      function toggleBaton(e) {
+        // Particle origin = chip center relative to card
+        const chipRect = chip.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+        const ox = chipRect.left - cardRect.left + chipRect.width  / 2;
+        const oy = chipRect.top  - cardRect.top  + chipRect.height / 2;
+
+        open = !open;
+
+        chip.classList.remove('hint-pulse');
+        chip.classList.toggle('baton-active', open);
+
+        // Shimmer the top bar
+        card.classList.remove('shimmering');
+        void card.offsetWidth; // reflow to restart animation
+        card.classList.add('shimmering');
+        setTimeout(() => card.classList.remove('shimmering'), 750);
+
+        // Journey reveal
+        journey.classList.toggle('open', open);
+
+        // Stagger step badges in
+        const steps = journey.querySelectorAll('.bj-step');
+        steps.forEach((s, i) => {
+          s.classList.remove('visible');
+          if (open) setTimeout(() => s.classList.add('visible'), 260 + i * 80);
+        });
+
+        // Hide tap hint permanently after first tap
+        if (tapHint) tapHint.classList.add('hidden');
+
+        // Fire particles
+        burst(ox, oy);
+      }
+
+      chip.addEventListener('click', toggleBaton);
+      chip.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        toggleBaton(e);
+      });
+      chip.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleBaton(e); }
+      });
+
+      // ── 4. Card 3D tilt on touch / mouse ─────────────────────────
+      const MAX_TILT = 7; // degrees
+
+      function applyTilt(rx, ry) {
+        card.style.transform =
+          `rotateX(${rx}deg) rotateY(${ry}deg)`;
+        card.style.boxShadow =
+          `${-ry * 3}px ${rx * 3 + 40}px ${110 + Math.abs(ry) * 4}px rgba(0,0,0,0.72),
+           0 0 0 1px rgba(255,255,255,0.04)`;
+      }
+
+      function resetTilt() {
+        card.style.transition = 'transform 0.55s cubic-bezier(0.23,1,0.32,1), box-shadow 0.55s';
+        card.style.transform  = '';
+        card.style.boxShadow  = '';
+        setTimeout(() => card.style.transition = 'transform 0.08s linear, box-shadow 0.2s', 600);
+      }
+
+      // Mouse
+      wrap.addEventListener('mousemove', function(e) {
+        const r   = card.getBoundingClientRect();
+        const cx  = r.left + r.width  / 2;
+        const cy  = r.top  + r.height / 2;
+        const dx  = (e.clientX - cx) / (r.width  / 2);
+        const dy  = (e.clientY - cy) / (r.height / 2);
+        applyTilt(-dy * MAX_TILT, dx * MAX_TILT);
+      });
+      wrap.addEventListener('mouseleave', resetTilt);
+
+      // Touch
+      wrap.addEventListener('touchmove', function(e) {
+        if (e.touches.length !== 1) return;
+        const t   = e.touches[0];
+        const r   = card.getBoundingClientRect();
+        const cx  = r.left + r.width  / 2;
+        const cy  = r.top  + r.height / 2;
+        const dx  = (t.clientX - cx) / (r.width  / 2);
+        const dy  = (t.clientY - cy) / (r.height / 2);
+        applyTilt(-dy * MAX_TILT * 0.6, dx * MAX_TILT * 0.6);
+      }, { passive: true });
+      wrap.addEventListener('touchend', resetTilt);
+      wrap.addEventListener('touchcancel', resetTilt);
+
+    })();
+
     /* ── WRAPPED CAROUSEL ──────────────────────────────────────────── */
     (function() {
       const cards = Array.from(document.querySelectorAll('.wc-card'));
