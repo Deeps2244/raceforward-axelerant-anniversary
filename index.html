@@ -270,6 +270,49 @@
       z-index: 1;
     }
 
+    /* ── MILESTONES OVERFLOW TOGGLE ──────────────────────────────── */
+    .splits-overflow {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .splits-overflow.open {
+      max-height: 6000px;
+    }
+
+    .splits-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 20px auto 0;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .splits-toggle-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+    .splits-toggle-arrow {
+      display: flex;
+      align-items: center;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      color: inherit;
+    }
+    .splits-toggle-btn.open .splits-toggle-arrow {
+      transform: rotate(180deg);
+    }
+    .splits-board { position: relative; }
+
     /* ── HERO TOUCH INTERACTIONS ─────────────────────────────────── */
 
     /* Card tilt wrapper — preserves 3D perspective */
@@ -763,182 +806,180 @@
       border-radius: 1.5px;
     }
 
-    /* ── RELAY TRACK (KEY WINS) ───────────────────────────────────── */
-    .relay-track {
-      margin-top: 48px;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
+    /* ── KEY WINS — FULL-BLEED INTERACTIVE STRIP ─────────────────── */
 
-    .relay-lane {
-      display: flex;
-      gap: 40px;
-      align-items: stretch;
-      padding: 40px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-
-    .relay-lane:nth-child(odd) {
-      flex-direction: row;
-    }
-
-    .relay-lane:nth-child(even) {
-      flex-direction: row-reverse;
-    }
-
-    .relay-baton-connector {
-      flex-shrink: 0;
-      width: 32px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    /* Break wins section out to full viewport width */
+    .wins-full-section {
+      max-width: none !important;
+      width: 100vw;
       position: relative;
-      padding: 20px 0;
-    }
-
-    .relay-baton-line {
-      position: absolute;
-      top: 0;
-      bottom: 0;
       left: 50%;
-      width: 2px;
       transform: translateX(-50%);
-      background: linear-gradient(180deg, var(--orange), transparent);
-      border-radius: 1px;
-    }
-
-    .relay-baton-orb {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 18px;
-      height: 18px;
-      background: var(--orange);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 0 6px rgba(242,90,2,0.15);
-      z-index: 2;
-    }
-
-    .relay-card {
-      flex: 1;
-      position: relative;
-      padding: 32px 28px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 8px;
-      border-left: 3px solid var(--orange);
+      padding: 80px 0 0 !important;
+      background: #080808;
       overflow: hidden;
     }
+    .wins-section-header {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 48px;
+    }
 
-    .relay-card::before {
-      content: attr(data-num);
+    /* The horizontal strip */
+    .wins-strip {
+      display: flex;
+      height: 400px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+    }
+
+    .win-panel {
+      flex: 0.55;
+      min-width: 44px;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+      transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1), background 0.4s;
+    }
+    .win-panel:last-child { border-right: none; }
+    .win-panel.active {
+      flex: 4;
+      background: rgba(255,255,255,0.025);
+    }
+
+    /* top accent bar per-panel */
+    .win-panel::after {
+      content: '';
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--wp-color, var(--orange));
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .win-panel.active::after { opacity: 1; }
+
+    /* ghost big number background */
+    .win-panel-bg {
+      position: absolute;
+      bottom: -10px;
+      right: -4px;
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 900;
       font-size: 200px;
       line-height: 1;
-      color: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.03);
       pointer-events: none;
-      z-index: 0;
+      user-select: none;
+      transition: color 0.4s, font-size 0.6s;
+    }
+    .win-panel.active .win-panel-bg {
+      color: rgba(255,255,255,0.06);
+      font-size: 220px;
     }
 
-    .relay-num {
+    /* collapsed vertical label */
+    .win-panel-short {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      white-space: nowrap;
+      transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.18);
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .win-panel.active .win-panel-short { opacity: 0; }
+
+    /* expanded content */
+    .win-panel-content {
+      position: absolute;
+      inset: 0;
+      padding: 40px 44px 36px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.35s 0.18s, transform 0.35s 0.18s;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-width: 280px;
+    }
+    .win-panel.active .win-panel-content {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .win-panel-num {
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 900;
-      font-size: 28px;
-      color: var(--orange);
-      line-height: 1;
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
-      position: relative;
-      z-index: 1;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--wp-color, var(--orange));
+      margin-bottom: 10px;
+      text-transform: uppercase;
     }
-
-    .relay-title {
+    .win-panel-title {
       font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
+      font-weight: 900;
+      font-size: clamp(22px, 2.4vw, 32px);
+      line-height: 1.05;
       color: var(--white);
       text-transform: uppercase;
-      margin-bottom: 12px;
-      line-height: 1.2;
-      position: relative;
-      z-index: 1;
+      letter-spacing: -0.01em;
+      margin-bottom: 14px;
     }
-
-    .relay-body {
+    .win-panel-body {
       font-size: 14px;
-      line-height: 1.65;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 16px;
-      position: relative;
-      z-index: 1;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.52);
+      margin-bottom: 18px;
+      max-width: 360px;
     }
-
-    .relay-stat {
+    .win-panel-stat {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--orange);
-      position: relative;
-      z-index: 1;
+      color: var(--wp-color, var(--orange));
+      opacity: 0.85;
     }
 
-    .relay-card.relay-animate {
-      animation: relay-slide-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    /* Bottom nav dots */
+    .wins-nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 0 24px;
+    }
+    .wins-nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .wins-nav-dot.active {
+      background: var(--orange);
+      transform: scale(1.4);
     }
 
-    .relay-lane:nth-child(odd) .relay-card {
-      transform: translateX(-50px);
-      opacity: 0;
+    @media (max-width: 768px) {
+      .wins-strip { height: auto; flex-direction: column; }
+      .win-panel { flex: none; min-width: unset; min-height: 56px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
+      .win-panel.active { min-height: 300px; }
+      .win-panel-short { transform: translateX(-50%) translateY(-50%); writing-mode: horizontal-tb; font-size: 11px; }
+      .win-panel-content { padding: 24px 24px 22px; min-width: unset; }
+      .wins-nav { padding: 14px 0 20px; }
     }
-
-    .relay-lane:nth-child(even) .relay-card {
-      transform: translateX(50px);
-      opacity: 0;
-    }
-
-    @keyframes relay-slide-in {
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    /* Color cycle for relay lanes */
-    .relay-lane:nth-child(1) .relay-card { border-left-color: var(--orange); }
-    .relay-lane:nth-child(1) .relay-num { color: var(--orange); }
-    .relay-lane:nth-child(1) .relay-stat { color: var(--orange); }
-
-    .relay-lane:nth-child(2) .relay-card { border-left-color: var(--red); }
-    .relay-lane:nth-child(2) .relay-num { color: var(--red); }
-    .relay-lane:nth-child(2) .relay-stat { color: var(--red); }
-
-    .relay-lane:nth-child(3) .relay-card { border-left-color: var(--blue); }
-    .relay-lane:nth-child(3) .relay-num { color: var(--blue); }
-    .relay-lane:nth-child(3) .relay-stat { color: var(--blue); }
-
-    .relay-lane:nth-child(4) .relay-card { border-left-color: var(--gold); }
-    .relay-lane:nth-child(4) .relay-num { color: var(--gold); }
-    .relay-lane:nth-child(4) .relay-stat { color: var(--gold); }
-
-    .relay-lane:nth-child(5) .relay-card { border-left-color: var(--orange); }
-    .relay-lane:nth-child(5) .relay-num { color: var(--orange); }
-    .relay-lane:nth-child(5) .relay-stat { color: var(--orange); }
-
-    .relay-lane:nth-child(6) .relay-card { border-left-color: var(--red); }
-    .relay-lane:nth-child(6) .relay-num { color: var(--red); }
-    .relay-lane:nth-child(6) .relay-stat { color: var(--red); }
-
-    .relay-lane:nth-child(7) .relay-card { border-left-color: var(--blue); }
-    .relay-lane:nth-child(7) .relay-num { color: var(--blue); }
-    .relay-lane:nth-child(7) .relay-stat { color: var(--blue); }
 
     /* ── GAME SECTION ─────────────────────────────────────────────── */
     .game-section { text-align: center; }
@@ -1486,52 +1527,12 @@
         margin-top: 32px;
       }
 
-      .relay-lane {
-        flex-direction: column;
-        gap: 20px;
-        padding: 24px 0;
-      }
-
-      .relay-lane:nth-child(even) {
-        flex-direction: column;
-      }
-
-      .relay-baton-connector {
-        width: 100%;
-        height: 20px;
-        padding: 0;
-      }
-
-      .relay-baton-line {
-        width: 100%;
-        height: 2px;
-        top: 50%;
-        left: 0;
-        right: 0;
-        transform: translateY(-50%);
-        background: linear-gradient(90deg, var(--orange), transparent);
-      }
-
-      .relay-baton-orb {
-        width: 14px;
-        height: 14px;
-      }
-
-      .relay-card {
-        border-left: 3px solid;
-      }
-
       .moments-stage {
         grid-template-columns: 1fr;
       }
 
       .next-track {
         max-width: 100%;
-      }
-
-      .team-split {
-        grid-template-columns: 1fr;
-        gap: 32px;
       }
     }
 
@@ -1791,6 +1792,15 @@
         </div></div>
       </div>
 
+      <!-- ── Show more / less toggle ─────────────────────────────── -->
+      <button class="splits-toggle-btn" id="splitsToggleBtn" onclick="toggleSplitsMore()">
+        <span class="splits-toggle-label" id="splitsToggleLabel">Show 7 more checkpoints</span>
+        <span class="splits-toggle-arrow" id="splitsToggleArrow">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18"><polyline points="3,6 9,12 15,6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+
+      <div class="splits-overflow" id="splitsOverflow">
       <div class="baton-connector"><div class="baton-stick"></div></div>
 
       <!-- 05 -->
@@ -1910,87 +1920,112 @@
         </div></div>
       </div>
 
+      </div><!-- /splits-overflow -->
+
     </div>
   </section>
 
   <div class="rule"></div>
 
-  <!-- ── WINS (RELAY TRACK) ──────────────────────────────────────── -->
-  <section>
-    <div class="section-eyebrow">What We Built</div>
-    <h2 class="section-title">Key Wins</h2>
-
-    <div class="relay-track">
-      <div class="relay-lane" data-num="01">
-        <div class="relay-baton-connector"><div class="relay-baton-line"></div><div class="relay-baton-orb"></div></div>
-        <div class="relay-card" data-num="01">
-          <div class="relay-num">01</div>
-          <div class="relay-title">Migration at Scale</div>
-          <div class="relay-body">4 sites migrated from Drupal 7 to Drupal 11 on Acquia. Complex legacy code, fragmented stack — navigated successfully.</div>
-          <div class="relay-stat">4 Sites · 12 Months · 0 Data Loss</div>
-        </div>
-      </div>
-
-      <div class="relay-lane" data-num="02">
-        <div class="relay-baton-connector"><div class="relay-baton-line"></div><div class="relay-baton-orb"></div></div>
-        <div class="relay-card" data-num="02">
-          <div class="relay-num">02</div>
-          <div class="relay-title">The Smoothest Delivery</div>
-          <div class="relay-body">Clocking-In launched nearly pixel-perfect, with bugs fixed that had never worked on the live D7 site — while two other sites were in parallel delivery.</div>
-          <div class="relay-stat">Pixel-perfect · Bugs fixed · 2 sites parallel</div>
-        </div>
-      </div>
-
-      <div class="relay-lane" data-num="03">
-        <div class="relay-baton-connector"><div class="relay-baton-line"></div><div class="relay-baton-orb"></div></div>
-        <div class="relay-card" data-num="03">
-          <div class="relay-num">03</div>
-          <div class="relay-title">Double Win in One Call</div>
-          <div class="relay-body">Overrun CR and new Discovery engagement — both approved in a single conversation with Timothy Armstrong in December 2025.</div>
-          <div class="relay-stat">2 Deals · 1 Conversation · December 2025</div>
-        </div>
-      </div>
-
-      <div class="relay-lane" data-num="04">
-        <div class="relay-baton-connector"><div class="relay-baton-line"></div><div class="relay-baton-orb"></div></div>
-        <div class="relay-card" data-num="04">
-          <div class="relay-num">04</div>
-          <div class="relay-title">AI-Powered Migration</div>
-          <div class="relay-body">Team piloted AI coding tools (Codex + Cline) on a live client project — an Axelerant first — with measured efficiency gains tracked and shared openly.</div>
-          <div class="relay-stat">Codex + Cline · ~25% faster · Industry first</div>
-        </div>
-      </div>
-
-      <div class="relay-lane" data-num="05">
-        <div class="relay-baton-connector"><div class="relay-baton-line"></div><div class="relay-baton-orb"></div></div>
-        <div class="relay-card" data-num="05">
-          <div class="relay-num">05</div>
-          <div class="relay-title">EMS AI Discovery</div>
-          <div class="relay-body">Prateek's team used an AI-driven discovery approach for the Event Management System — now a thought leadership blog in the making.</div>
-          <div class="relay-stat">Custom platform · 4–5K attendees · AI-driven</div>
-        </div>
-      </div>
-
-      <div class="relay-lane" data-num="06">
-        <div class="relay-baton-connector"><div class="relay-baton-line"></div><div class="relay-baton-orb"></div></div>
-        <div class="relay-card" data-num="06">
-          <div class="relay-num">06</div>
-          <div class="relay-title">Acquia Visibility</div>
-          <div class="relay-body">Race Forward positioned as a featured reference for Acquia Engage Awards 2026 and Drupalcon's Non-Profit Summit.</div>
-          <div class="relay-stat">Engage Awards 2026 · Drupalcon Summit</div>
-        </div>
-      </div>
-
-      <div class="relay-lane" data-num="07">
-        <div class="relay-baton-connector"><div class="relay-baton-line"></div><div class="relay-baton-orb"></div></div>
-        <div class="relay-card" data-num="07">
-          <div class="relay-num">07</div>
-          <div class="relay-title">Goodwill Extension</div>
-          <div class="relay-body">Zero-cost CDM extension offered proactively — a trust move that deepened the relationship rather than creating friction.</div>
-          <div class="relay-stat">Zero-cost CDM · Trust-first · Relationship deepened</div>
-        </div>
-      </div>
+  <!-- ── WINS — FULL-BLEED INTERACTIVE STRIP ─────────────────────── -->
+  <section class="wins-full-section">
+    <div class="wins-section-header">
+      <div class="section-eyebrow">What We Built</div>
+      <h2 class="section-title">Key Wins</h2>
     </div>
+
+    <div class="wins-strip" id="winsStrip">
+
+      <div class="win-panel active" style="--wp-color:#F25A02" onclick="activateWin(this)">
+        <div class="win-panel-bg">01</div>
+        <div class="win-panel-short">01 · Migration</div>
+        <div class="win-panel-content">
+          <div class="win-panel-num">01 — Migration</div>
+          <div class="win-panel-title">Migration<br>at Scale</div>
+          <div class="win-panel-body">4 sites migrated from Drupal 7 to Drupal 11 on Acquia. Complex legacy code, fragmented stack — navigated successfully.</div>
+          <div class="win-panel-stat">4 Sites · 12 Months · 0 Data Loss</div>
+        </div>
+      </div>
+
+      <div class="win-panel" style="--wp-color:#C8102E" onclick="activateWin(this)">
+        <div class="win-panel-bg">02</div>
+        <div class="win-panel-short">02 · Delivery</div>
+        <div class="win-panel-content">
+          <div class="win-panel-num">02 — Delivery</div>
+          <div class="win-panel-title">The Smoothest<br>Delivery</div>
+          <div class="win-panel-body">Clocking-In launched nearly pixel-perfect, with bugs fixed that had never worked on the live D7 site — while two other sites were in parallel delivery.</div>
+          <div class="win-panel-stat">Pixel-perfect · Bugs fixed · 2 sites parallel</div>
+        </div>
+      </div>
+
+      <div class="win-panel" style="--wp-color:#082695" onclick="activateWin(this)">
+        <div class="win-panel-bg">03</div>
+        <div class="win-panel-short">03 · Double Win</div>
+        <div class="win-panel-content">
+          <div class="win-panel-num">03 — Strategy</div>
+          <div class="win-panel-title">Double Win<br>in One Call</div>
+          <div class="win-panel-body">Overrun CR and new Discovery engagement — both approved in a single conversation with Timothy Armstrong in December 2025.</div>
+          <div class="win-panel-stat">2 Deals · 1 Conversation · Dec 2025</div>
+        </div>
+      </div>
+
+      <div class="win-panel" style="--wp-color:#F8CE03" onclick="activateWin(this)">
+        <div class="win-panel-bg">04</div>
+        <div class="win-panel-short">04 · AI First</div>
+        <div class="win-panel-content">
+          <div class="win-panel-num">04 — Innovation</div>
+          <div class="win-panel-title">AI-Powered<br>Migration</div>
+          <div class="win-panel-body">Team piloted AI coding tools (Codex + Cline) on a live client project — an Axelerant first — with measured efficiency gains tracked openly.</div>
+          <div class="win-panel-stat">Codex + Cline · ~25% faster · Industry first</div>
+        </div>
+      </div>
+
+      <div class="win-panel" style="--wp-color:#F25A02" onclick="activateWin(this)">
+        <div class="win-panel-bg">05</div>
+        <div class="win-panel-short">05 · EMS</div>
+        <div class="win-panel-content">
+          <div class="win-panel-num">05 — Discovery</div>
+          <div class="win-panel-title">EMS AI<br>Discovery</div>
+          <div class="win-panel-body">Prateek's team used an AI-driven discovery approach for the Event Management System — a thought leadership piece in the making.</div>
+          <div class="win-panel-stat">Custom platform · 4–5K attendees · AI-driven</div>
+        </div>
+      </div>
+
+      <div class="win-panel" style="--wp-color:#C8102E" onclick="activateWin(this)">
+        <div class="win-panel-bg">06</div>
+        <div class="win-panel-short">06 · Acquia</div>
+        <div class="win-panel-content">
+          <div class="win-panel-num">06 — Visibility</div>
+          <div class="win-panel-title">Acquia<br>Visibility</div>
+          <div class="win-panel-body">Race Forward positioned as a featured reference for Acquia Engage Awards 2026 and Drupalcon's Non-Profit Summit.</div>
+          <div class="win-panel-stat">Engage Awards 2026 · Drupalcon Summit</div>
+        </div>
+      </div>
+
+      <div class="win-panel" style="--wp-color:#082695" onclick="activateWin(this)">
+        <div class="win-panel-bg">07</div>
+        <div class="win-panel-short">07 · Goodwill</div>
+        <div class="win-panel-content">
+          <div class="win-panel-num">07 — Trust</div>
+          <div class="win-panel-title">Goodwill<br>Extension</div>
+          <div class="win-panel-body">Zero-cost CDM extension offered proactively — a trust move that deepened the relationship rather than creating friction.</div>
+          <div class="win-panel-stat">Zero-cost CDM · Trust-first · Relationship deepened</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Nav dots -->
+    <div class="wins-nav" id="winsNav">
+      <div class="wins-nav-dot active" onclick="activateWinByIndex(0)"></div>
+      <div class="wins-nav-dot" onclick="activateWinByIndex(1)"></div>
+      <div class="wins-nav-dot" onclick="activateWinByIndex(2)"></div>
+      <div class="wins-nav-dot" onclick="activateWinByIndex(3)"></div>
+      <div class="wins-nav-dot" onclick="activateWinByIndex(4)"></div>
+      <div class="wins-nav-dot" onclick="activateWinByIndex(5)"></div>
+      <div class="wins-nav-dot" onclick="activateWinByIndex(6)"></div>
+    </div>
+
   </section>
 
   <div class="rule"></div>
@@ -2151,6 +2186,59 @@
 
 
   <script>
+    /* ── MILESTONES EXPAND/COLLAPSE ───────────────────────────────── */
+    function toggleSplitsMore() {
+      const overflow = document.getElementById('splitsOverflow');
+      const btn      = document.getElementById('splitsToggleBtn');
+      const label    = document.getElementById('splitsToggleLabel');
+      const isOpen   = overflow.classList.toggle('open');
+      btn.classList.toggle('open', isOpen);
+      label.textContent = isOpen ? 'Show fewer checkpoints' : 'Show 7 more checkpoints';
+    }
+
+    /* ── KEY WINS INTERACTIVE STRIP ────────────────────────────────── */
+    function activateWin(panel) {
+      const panels = Array.from(panel.parentElement.children);
+      panels.forEach((p, i) => {
+        const wasActive = p.classList.contains('active');
+        p.classList.toggle('active', p === panel);
+        // sync nav dot
+        const dot = document.querySelectorAll('.wins-nav-dot')[i];
+        if (dot) dot.classList.toggle('active', p === panel);
+      });
+    }
+
+    function activateWinByIndex(idx) {
+      const panels = document.querySelectorAll('.win-panel');
+      if (panels[idx]) activateWin(panels[idx]);
+    }
+
+    // Auto-cycle on desktop when no interaction
+    (function() {
+      let timer;
+      let cycleIdx = 0;
+      const INTERVAL = 3800;
+
+      function cycle() {
+        const panels = document.querySelectorAll('.win-panel');
+        if (!panels.length) return;
+        cycleIdx = (cycleIdx + 1) % panels.length;
+        activateWinByIndex(cycleIdx);
+      }
+
+      function startCycle() { timer = setInterval(cycle, INTERVAL); }
+      function stopCycle()  { clearInterval(timer); }
+
+      const strip = document.getElementById('winsStrip');
+      if (strip) {
+        strip.addEventListener('mouseenter', stopCycle);
+        strip.addEventListener('mouseleave', startCycle);
+        strip.addEventListener('touchstart', stopCycle, { passive: true });
+        // Start after a brief delay
+        setTimeout(startCycle, 2500);
+      }
+    })();
+
     /* ── HERO BATON INTERACTIVITY ─────────────────────────────────── */
     (function() {
       const card      = document.getElementById('batonCard');
