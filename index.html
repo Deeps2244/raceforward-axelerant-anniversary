@@ -2702,11 +2702,22 @@
           if (heroActLabel) heroActLabel.classList.remove('on');
         }
 
-        if (running) requestAnimationFrame(drawFrame);
+        /* Stop loop once animation is complete */
+        if (running && elapsed < TA4_SCROLL + 4000) {
+          requestAnimationFrame(drawFrame);
+        } else {
+          running = false;
+        }
       }
 
       requestAnimationFrame(drawFrame);
-      setTimeout(function() { running = false; }, TA4_SCROLL + 4000);
+
+      /* Restart rAF when tab becomes visible (handles background-tab freeze) */
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && running) {
+          requestAnimationFrame(drawFrame);
+        }
+      });
     })();
 
     /* ── PARTNER STATS INTERACTIVITY ───────────────────────────────── */
