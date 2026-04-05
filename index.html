@@ -2430,10 +2430,16 @@
           var e=document.getElementById('heroScrollCue'); if(e)e.classList.add('visible');
         }
 
-        if(running&&el<TOTAL){requestAnimationFrame(drawFrame);}else{running=false;}
+        if(running&&el<TOTAL){
+          /* Use rAF when visible; fall back to setTimeout when tab is hidden */
+          if(!document.hidden){requestAnimationFrame(drawFrame);}
+          else{setTimeout(function(){requestAnimationFrame(drawFrame);},16);}
+        }else{running=false;}
       }
 
-      requestAnimationFrame(drawFrame);
+      /* Kick off — works even when tab is hidden (e.g. embedded browser) */
+      if(!document.hidden){requestAnimationFrame(drawFrame);}
+      else{setTimeout(function(){requestAnimationFrame(drawFrame);},16);}
       document.addEventListener('visibilitychange',function(){
         if(!document.hidden&&running)requestAnimationFrame(drawFrame);
       });
