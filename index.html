@@ -102,14 +102,12 @@
     }
     .hero-year-label.visible { opacity: 1; }
     .hero-badge {
-      font-family: var(--ax-font-condensed);
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.30em; text-transform: uppercase;
-      color: #F47B20;
-      border: 1px solid rgba(244,123,32,0.32);
-      padding: 6px 20px; border-radius: 2px;
-      opacity: 0; transform: translateY(14px);
-      transition: opacity 0.75s ease, transform 0.75s ease;
+      font-family: var(--ax-font-display);
+      font-size: clamp(26px, 3.8vw, 52px);
+      font-weight: 700; letter-spacing: -0.02em;
+      color: #F47B20; line-height: 1;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
     }
     .hero-badge.visible { opacity: 1; transform: translateY(0); }
     .hero-headline {
@@ -2105,54 +2103,50 @@
          Arc origin points step DOWN the body so arcs fan out naturally.
          Left wing mirrors by negating all X values.                      */
       var ARCS=[
-        /* 0 – forewing leading edge   orange  */
-        {p:[0.05,-0.38, 0.22,-0.72, 0.60,-0.56, 0.75,-0.08], col:'#F47B20',
+        /* ── FOREWING BAND 1 — upper sweep  orange
+           Traces from upper body area across the top half of the forewing.
+           3 words: large anchor at body-side, medium at centre, small at outer tip. */
+        {p:[0.06,-0.30, 0.26,-0.65, 0.56,-0.50, 0.74,-0.16], col:'#F47B20',
          words:[
-           {t:0.08,w:'EQUITY',    sz:22},
-           {t:0.28,w:'LIBERATION',sz:14},
-           {t:0.50,w:'JUSTICE',   sz:24},
-           {t:0.72,w:'FREEDOM',   sz:16},
-           {t:0.90,w:'THRIVE',    sz:13}
+           {t:0.18, w:'JUSTICE',     sz:36},
+           {t:0.52, w:'LIBERATION',  sz:18},
+           {t:0.86, w:'THRIVE',      sz:11}
          ]},
-        /* 1 – second vein              red     */
-        {p:[0.06,-0.22, 0.22,-0.56, 0.54,-0.40, 0.68, 0.00], col:'#E84732',
+
+        /* ── FOREWING BAND 2 — middle sweep  crimson
+           Sweeps across the centre height of the forewing. */
+        {p:[0.05,-0.12, 0.20,-0.40, 0.50,-0.22, 0.68, 0.02], col:'#E84732',
          words:[
-           {t:0.08,w:'BELONGING', sz:16},
-           {t:0.30,w:'DIGNITY',   sz:22},
-           {t:0.54,w:'HEAL',      sz:18},
-           {t:0.74,w:'ABUNDANCE', sz:14},
-           {t:0.90,w:'SAFETY',    sz:12}
+           {t:0.20, w:'EQUITY',      sz:28},
+           {t:0.58, w:'FREEDOM',     sz:16},
+           {t:0.88, w:'HEAL',        sz:11}
          ]},
-        /* 2 – third vein               purple  */
-        {p:[0.06,-0.06, 0.20,-0.36, 0.48,-0.22, 0.60, 0.08], col:'#7B4BA3',
+
+        /* ── FOREWING BAND 3 — lower sweep  purple
+           Lower edge of the forewing, shorter gentle arc. */
+        {p:[0.04, 0.00, 0.15,-0.14, 0.40,-0.04, 0.57, 0.12], col:'#7B4BA3',
          words:[
-           {t:0.10,w:'Community',  sz:18},
-           {t:0.36,w:'Narrative',  sz:14},
-           {t:0.60,w:'Movement',   sz:20},
-           {t:0.86,w:'Amplify',    sz:13}
+           {t:0.22, w:'DIGNITY',     sz:24},
+           {t:0.72, w:'BELONGING',   sz:14}
          ]},
-        /* 3 – lower forewing           purple→teal */
-        {p:[0.05, 0.06, 0.16,-0.12, 0.38,-0.04, 0.46, 0.17], col:'#5F6BB6',
+
+        /* ── HINDWING BAND 1 — upper hindwing  teal
+           Sweeps from body-lower area across the upper hindwing. */
+        {p:[0.05, 0.10, 0.28, 0.16, 0.44, 0.30, 0.36, 0.42], col:'#1A9BAA',
          words:[
-           {t:0.10,w:'Butterfly Lab', sz:16},
-           {t:0.42,w:'Transform',     sz:18},
-           {t:0.72,w:'Colorlines',    sz:14},
-           {t:0.90,w:'Storyteller',   sz:11}
+           {t:0.22, w:'COMMUNITY',   sz:26},
+           {t:0.72, w:'TRANSFORM',   sz:14}
          ]},
-        /* 4 – hindwing upper           teal    */
-        {p:[0.04, 0.16, 0.22, 0.24, 0.38, 0.34, 0.30, 0.42], col:'#1A9BAA',
+
+        /* ── HINDWING BAND 2 — lower hindwing  green
+           Curves through the lower-outer hindwing. */
+        {p:[0.04, 0.22, 0.12, 0.36, 0.24, 0.43, 0.16, 0.47], col:'#3EA44A',
          words:[
-           {t:0.12,w:'Facing Race',sz:16},
-           {t:0.50,w:'RF Action',  sz:18},
-           {t:0.86,w:'GARE',       sz:14}
-         ]},
-        /* 5 – hindwing lower           green   */
-        {p:[0.03, 0.24, 0.11, 0.34, 0.20, 0.42, 0.12, 0.46], col:'#3EA44A',
-         words:[
-           {t:0.18,w:'Empower',  sz:16},
-           {t:0.55,w:'Resilient',sz:18},
-           {t:0.86,w:'Grounded', sz:13}
+           {t:0.28, w:'RESILIENT',   sz:20},
+           {t:0.78, w:'GROUNDED',    sz:12}
          ]}
+      ];
+
       ];
 
       /* ── Pre-computed word render list ─────────────────────────────── */
@@ -2162,7 +2156,7 @@
         wordList=[];
         var cx=W()*0.5, cy=H()*0.46;
         /* Wing scale: use 40% of half-width so wings fill the canvas nicely */
-        var sc=Math.min(W()*0.42, H()*0.52);
+        var sc=Math.min(W()*0.47, H()*0.58);
 
         ARCS.forEach(function(arc,ai){
           var arcDelay=ai*0.06; /* stagger arcs slightly */
@@ -2246,23 +2240,46 @@
       /* ── Ghost wing membrane ────────────────────────────────────────── */
       function drawGhost(cx,cy,sc,alpha){
         if(alpha<0.01)return;
-        ctx.save(); ctx.globalAlpha=alpha*0.06;
+        ctx.save();
         [1,-1].forEach(function(sx){
-          var fill=ctx.createRadialGradient(cx+sx*sc*0.3,cy-sc*0.2,5,cx+sx*sc*0.3,cy-sc*0.2,sc*0.75);
-          fill.addColorStop(0,'rgba(255,255,255,0.8)'); fill.addColorStop(1,'rgba(0,0,0,0)');
-          ctx.fillStyle=fill;
-          /* forewing */
+          /* forewing — warm amber glow */
+          var fw=ctx.createRadialGradient(cx+sx*sc*0.32,cy-sc*0.26,10,cx+sx*sc*0.32,cy-sc*0.26,sc*0.72);
+          fw.addColorStop(0,'rgba(244,123,32,0.22)');
+          fw.addColorStop(0.45,'rgba(232,71,50,0.12)');
+          fw.addColorStop(1,'rgba(0,0,0,0)');
+          ctx.globalAlpha=alpha*0.18;
+          ctx.fillStyle=fw;
           ctx.beginPath();
           ctx.moveTo(cx+sx*22,cy-20);
           ctx.bezierCurveTo(cx+sx*sc*0.22,cy-sc*0.72, cx+sx*sc*0.60,cy-sc*0.56, cx+sx*sc*0.75,cy-sc*0.08);
           ctx.bezierCurveTo(cx+sx*sc*0.62,cy+sc*0.14, cx+sx*sc*0.28,cy+sc*0.06, cx+sx*22,cy+5);
           ctx.closePath(); ctx.fill();
-          /* hindwing */
+
+          /* hindwing — cool teal-green glow */
+          var hw=ctx.createRadialGradient(cx+sx*sc*0.22,cy+sc*0.28,5,cx+sx*sc*0.22,cy+sc*0.28,sc*0.42);
+          hw.addColorStop(0,'rgba(26,155,170,0.20)');
+          hw.addColorStop(0.5,'rgba(62,164,74,0.12)');
+          hw.addColorStop(1,'rgba(0,0,0,0)');
+          ctx.globalAlpha=alpha*0.18;
+          ctx.fillStyle=hw;
           ctx.beginPath();
           ctx.moveTo(cx+sx*18,cy+6);
           ctx.bezierCurveTo(cx+sx*sc*0.36,cy+sc*0.14, cx+sx*sc*0.42,cy+sc*0.34, cx+sx*sc*0.28,cy+sc*0.44);
           ctx.bezierCurveTo(cx+sx*sc*0.12,cy+sc*0.48, cx+sx*sc*0.04,cy+sc*0.28, cx+sx*14,cy+22);
           ctx.closePath(); ctx.fill();
+
+          /* subtle wing outline strokes */
+          ctx.globalAlpha=alpha*0.12;
+          ctx.strokeStyle='rgba(244,123,32,0.5)'; ctx.lineWidth=0.8;
+          ctx.beginPath();
+          ctx.moveTo(cx+sx*22,cy-20);
+          ctx.bezierCurveTo(cx+sx*sc*0.22,cy-sc*0.72, cx+sx*sc*0.60,cy-sc*0.56, cx+sx*sc*0.75,cy-sc*0.08);
+          ctx.stroke();
+          ctx.strokeStyle='rgba(26,155,170,0.4)'; ctx.lineWidth=0.8;
+          ctx.beginPath();
+          ctx.moveTo(cx+sx*18,cy+6);
+          ctx.bezierCurveTo(cx+sx*sc*0.36,cy+sc*0.14, cx+sx*sc*0.42,cy+sc*0.34, cx+sx*sc*0.28,cy+sc*0.44);
+          ctx.stroke();
         });
         ctx.restore();
       }
@@ -2358,7 +2375,7 @@
         if(!START)START=ts;
         var el=ts-START;
         var w=W(),h=H(),cx=w*0.5,cy=h*0.46;
-        var sc=Math.min(w*0.42,h*0.52);
+        var sc=Math.min(w*0.47,h*0.58);
 
         ctx.clearRect(0,0,w,h);
         ctx.fillStyle='#060608'; ctx.fillRect(0,0,w,h);
