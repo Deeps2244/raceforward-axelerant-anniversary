@@ -2431,15 +2431,15 @@
         }
 
         if(running&&el<TOTAL){
-          /* Use rAF when visible; fall back to setTimeout when tab is hidden */
+          /* rAF is paused in hidden tabs — call drawFrame directly via setTimeout */
           if(!document.hidden){requestAnimationFrame(drawFrame);}
-          else{setTimeout(function(){requestAnimationFrame(drawFrame);},16);}
+          else{setTimeout(function(){drawFrame(performance.now());},16);}
         }else{running=false;}
       }
 
-      /* Kick off — works even when tab is hidden (e.g. embedded browser) */
+      /* Kick off — works even when tab is hidden */
       if(!document.hidden){requestAnimationFrame(drawFrame);}
-      else{setTimeout(function(){requestAnimationFrame(drawFrame);},16);}
+      else{setTimeout(function(){drawFrame(performance.now());},16);}
       document.addEventListener('visibilitychange',function(){
         if(!document.hidden&&running)requestAnimationFrame(drawFrame);
       });
