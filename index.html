@@ -2070,7 +2070,7 @@
         ctx.setTransform(dpr,0,0,dpr,0,0);
         buildWords();
       }
-      resize(); window.addEventListener('resize',resize);
+      window.addEventListener('resize',resize);
       function W(){return cv.width/dpr;} function H(){return cv.height/dpr;}
 
       var RF=['#F47B20','#E84732','#7B4BA3','#1A9BAA','#3EA44A'];
@@ -2189,7 +2189,7 @@
           });
         });
       }
-      buildWords();
+      resize(); /* safe to call now — ARCS and buildWords are fully defined */
 
       /* ── Character-by-character arc text renderer ───────────────────
          Each character is placed at its exact position on the bezier
