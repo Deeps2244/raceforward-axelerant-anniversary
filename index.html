@@ -2431,15 +2431,25 @@
         }
 
         if(running&&el<TOTAL){
-          /* rAF is paused in hidden tabs — call drawFrame directly via setTimeout */
-          if(!document.hidden){requestAnimationFrame(drawFrame);}
-          else{setTimeout(function(){drawFrame(performance.now());},16);}
+          if(!document.hidden){
+            requestAnimationFrame(drawFrame);
+          } else {
+            /* MessageChannel is not throttled in background/hidden tabs */
+            var mc=new MessageChannel();
+            mc.port1.onmessage=function(){drawFrame(performance.now());};
+            mc.port2.postMessage(0);
+          }
         }else{running=false;}
       }
 
       /* Kick off — works even when tab is hidden */
-      if(!document.hidden){requestAnimationFrame(drawFrame);}
-      else{setTimeout(function(){drawFrame(performance.now());},16);}
+      if(!document.hidden){
+        requestAnimationFrame(drawFrame);
+      } else {
+        var mc0=new MessageChannel();
+        mc0.port1.onmessage=function(){drawFrame(performance.now());};
+        mc0.port2.postMessage(0);
+      }
       document.addEventListener('visibilitychange',function(){
         if(!document.hidden&&running)requestAnimationFrame(drawFrame);
       });
